@@ -22,7 +22,7 @@ public class Producto extends Item {
     // Verifica si el producto esta vencido, retorna verdadero
     // si la fecha de vencimiento es anterior a hoy
     public Boolean estaVencido() {
-        return LocalDate.now(isAfter(this.vencimiento));
+        return LocalDate.now().isAfter(this.vencimiento);
     }
 
     // Verifica si hay stock disponible
