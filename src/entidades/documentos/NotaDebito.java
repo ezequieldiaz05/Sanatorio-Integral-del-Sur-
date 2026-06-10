@@ -1,4 +1,7 @@
-package entidades;
+package entidades.documentos;
+
+import entidades.Proveedor;
+import entidades.documentos.DocumentoComercial;
 
 /**
  * Clase que representa una Nota de Débito en el sistema.

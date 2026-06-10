@@ -1,4 +1,8 @@
-package entidades;
+package entidades.documentos;
+
+import entidades.Proveedor;
+import entidades.documentos.DocumentoComercial;
+
 /**
  * Clase que representa una Nota de Crédito en el sistema.
  * Hereda de DocumentoComercial (aplicación de Herencia/Especialización).

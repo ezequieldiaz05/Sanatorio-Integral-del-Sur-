@@ -1,4 +1,7 @@
-package entidades;
+package entidades.documentos;
+
+import entidades.OrdenCompra;
+import entidades.Proveedor;
 
 /**
  * Clase que representa una Factura emitida por un Proveedor.

@@ -19,7 +19,7 @@ public class Proveedor {
     private List<CertificadoExclusion> certificadoExclusion;
 
     public Proveedor(String CUIT, String razonSocial, String nombreComercial, String domicilio, String telefono, String correoElectronico, String condicionImpositiva, int numeroInscripcionFiscal, Date fechaInicioActividades, float limiteDeuda, List<Rubro> rubros, List<CertificadoExclusion> certificadoExclusion){
-        this.cuit = cuit;
+        this.CUIT = CUIT;
         this.razonSocial = razonSocial;
         this.nombreComercial = nombreComercial;
         this.domicilio = domicilio;
