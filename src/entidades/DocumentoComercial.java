@@ -145,7 +145,7 @@ public abstract class DocumentoComercial {
     public boolean verificarCoherenciaConceptos() {
         for (DetalleDocumento detalle : detalles) {
             Item item = detalle.getItem();
-            if (!proveedor.esAptoParaItem(item)) {
+            if (/**TODO cambiar proveedor por clase que use esAptoParaItem*/ !proveedor.esAptoParaItem(item)) {
                 return false;
             }
         }
