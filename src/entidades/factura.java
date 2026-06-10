@@ -5,7 +5,7 @@ package entidades;
  * Hereda de DocumentoComercial (aplicación de Herencia/Especialización).
  * * Regla de negocio: Una Factura INCREMENTA la deuda del sanatorio 
  * con el proveedor. Su impacto en la cuenta corriente es positivo. Además,
- * debe autovalidarse contra las Órdenes de Compra para confirmar origen y precio.
+ * debe autovalidarse contra las Órdenes de Compra para confirmar origen y precio
  */
 public class Factura extends DocumentoComercial {
     

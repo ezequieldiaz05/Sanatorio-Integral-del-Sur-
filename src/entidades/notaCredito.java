@@ -3,7 +3,7 @@ package entidades;
  * Clase que representa una Nota de Crédito en el sistema.
  * Hereda de DocumentoComercial (aplicación de Herencia/Especialización).
  * * Regla de negocio: Una Nota de Crédito DISMINUYE la deuda del sanatorio 
- * con el proveedor (es plata a favor nuestro). Por lo tanto, su impacto 
+ * con el proveedor (es plata a favor nuestro). Por lo tanto, su impacto
  * en la cuenta corriente es negativo (resta deuda).
  */
 public class NotaCredito extends DocumentoComercial {

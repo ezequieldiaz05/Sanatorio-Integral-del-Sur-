@@ -4,7 +4,7 @@ package entidades;
  * Clase que representa una Nota de Débito en el sistema.
  * Hereda de DocumentoComercial (aplicación de Herencia/Especialización).
  * * Regla de negocio: Una Nota de Débito INCREMENTA la deuda del sanatorio 
- * con el proveedor. Por lo tanto, su impacto en la cuenta corriente es positivo.
+ * con el proveedor. Por lo tanto, su impacto en la cuenta corriente es positivo
  */
 public class NotaDebito extends DocumentoComercial {
     
