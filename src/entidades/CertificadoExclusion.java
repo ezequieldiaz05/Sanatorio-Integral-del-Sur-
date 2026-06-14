@@ -2,83 +2,53 @@ package entidades;
 
 import java.time.LocalDate;
 
-// Representa un certificado de exclusion fiscal usado por proveedores
-// para acreditar exención de algunos impuestos.
 public class CertificadoExclusion {
-    private String tipoImpuesto;
+    private int paImpuesto;       // código numérico del impuesto (ej: 1=IIBB, 2=Ganancias)
+    private String nombre;         // nombre del certificado
     private LocalDate fechaDesde;
     private LocalDate fechaHasta;
-    private String nroCertificado;
 
-    public CertificadoExclusion() {
+    public CertificadoExclusion() {}
 
-    }
-
-    public CertificadoExclusion(String tipoImpuesto, LocalDate fechaDesde, LocalDate fechaHasta,
-            String nroCertificado) {
-        this.tipoImpuesto = tipoImpuesto;
+    public CertificadoExclusion(int paImpuesto, String nombre,
+                                 LocalDate fechaDesde, LocalDate fechaHasta) {
+        this.paImpuesto = paImpuesto;
+        this.nombre = nombre;
         this.fechaDesde = fechaDesde;
         this.fechaHasta = fechaHasta;
-        this.nroCertificado = nroCertificado;
     }
 
-    // Verifica si el certificado está vigente (no ha vencido)
-    public Boolean estaVigente() {
+    public boolean estaVigente() {
         LocalDate hoy = LocalDate.now();
         return !hoy.isBefore(fechaDesde) && !hoy.isAfter(fechaHasta);
     }
 
-    // Verifica si el certificado es vigente en una fecha especifica
-    public Boolean estaVigente(LocalDate fecha) {
+    public boolean estaVigente(LocalDate fecha) {
         return !fecha.isBefore(fechaDesde) && !fecha.isAfter(fechaHasta);
     }
 
-    // Calcula cuántos días faltan para que venza
     public Integer diasHastaVencimiento() {
         LocalDate hoy = LocalDate.now();
-        if (hoy.isAfter(fechaHasta)) {
-            return 0; // Ya venció
-        }
+        if (hoy.isAfter(fechaHasta)) return 0;
         return (int) java.time.temporal.ChronoUnit.DAYS.between(hoy, fechaHasta);
     }
 
-    public String getTipoImpuesto() {
-        return this.tipoImpuesto;
-    }
+    // GETTERS Y SETTERS
+    public int getPaImpuesto() { return paImpuesto; }
+    public void setPaImpuesto(int paImpuesto) { this.paImpuesto = paImpuesto; }
 
-    public void setTipoImpuesto(String tipoImpuesto) {
-        this.tipoImpuesto = tipoImpuesto;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public LocalDate getFechaDesde() {
-        return this.fechaDesde;
-    }
+    public LocalDate getFechaDesde() { return fechaDesde; }
+    public void setFechaDesde(LocalDate fechaDesde) { this.fechaDesde = fechaDesde; }
 
-    public void setFechaDesde(LocalDate fechaDesde) {
-        this.fechaDesde = fechaDesde;
-    }
-
-    public LocalDate getFechaHasta() {
-        return this.fechaHasta;
-    }
-
-    public void setFechaHasta(LocalDate fechaHasta) {
-        this.fechaHasta = fechaHasta;
-    }
-
-    public String getNroCertificado() {
-        return this.nroCertificado;
-    }
-
-    public void setNroCertificado(String nroCertificado) {
-        this.nroCertificado = nroCertificado;
-    }
+    public LocalDate getFechaHasta() { return fechaHasta; }
+    public void setFechaHasta(LocalDate fechaHasta) { this.fechaHasta = fechaHasta; }
 
     @Override
     public String toString() {
-        return "Certificado {" +
-                "tipo: " + tipoImpuesto +
-                ", vigente: " + estaVigente() +
-                "}";
+        return "CertificadoExclusion{impuesto=" + paImpuesto + ", nombre='" + nombre
+                + "', vigente=" + estaVigente() + "}";
     }
 }

@@ -2,90 +2,57 @@ package entidades;
 
 public class DetalleDocumento {
 
-    // =========================================================
-    // ATRIBUTOS
-    // =========================================================
-    private double cantidad;
-    private double precioUnitario;
-    private double alicuotaIVA;   // ej: 0.21, 0.105, 0.0
-    private double subtotal;      // cantidad * precioUnitario (sin IVA)
+    private Double cantidad;
+    private Double precioUnitario;
+    private Double alicuotaIVA;    // ej: 0.21, 0.105, 0.0
+    private Double subtotal;       // cantidad * precioUnitario (neto sin IVA)
+    private Double subtotalIVA;    // subtotal * alicuotaIVA
 
     private Item item;
 
-    // =========================================================
-    // CONSTRUCTOR VACÍO
-    // =========================================================
     public DetalleDocumento() {}
 
-    // =========================================================
-    // MÉTODO DE FÁBRICA (según diagrama: crearDetalle)
-    // =========================================================
-
-    /**
-     * Crea y devuelve un DetalleDocumento completamente inicializado.
-     * El subtotal se calcula como cantidad * precioUnitario (neto, sin IVA).
-     *
-     * @param item            ítem del catálogo
-     * @param cantidad        cantidad facturada
-     * @param precioUnitario  precio unitario neto acordado
-     * @param alicuotaIVA     alícuota de IVA como decimal (ej: 0.21)
-     */
-    public static DetalleDocumento crearDetalle(Item item, double cantidad,
-                                                double precioUnitario, double alicuotaIVA) {
-        DetalleDocumento detalle = new DetalleDocumento();
-        detalle.item = item;
-        detalle.cantidad = cantidad;
-        detalle.precioUnitario = precioUnitario;
-        detalle.alicuotaIVA = alicuotaIVA;
-        detalle.subtotal = cantidad * precioUnitario;
-        return detalle;
+    public static DetalleDocumento crearDetalle(Double cantidad, Double precioUnitario,
+                                                Double alicuotaIVA, Double subtotalIVA) {
+        DetalleDocumento d = new DetalleDocumento();
+        d.cantidad = cantidad;
+        d.precioUnitario = precioUnitario;
+        d.alicuotaIVA = alicuotaIVA;
+        d.subtotal = cantidad * precioUnitario;
+        d.subtotalIVA = subtotalIVA;
+        return d;
     }
 
-    // =========================================================
-    // GETTERS (no hay setters: el detalle se crea de una vez)
-    // =========================================================
-    public Item getItem() {
-        return item;
+    public static DetalleDocumento crearDetalle(Item item, Double cantidad,
+                                                Double precioUnitario, Double alicuotaIVA) {
+        DetalleDocumento d = new DetalleDocumento();
+        d.item = item;
+        d.cantidad = cantidad;
+        d.precioUnitario = precioUnitario;
+        d.alicuotaIVA = alicuotaIVA;
+        d.subtotal = cantidad * precioUnitario;
+        d.subtotalIVA = d.subtotal * alicuotaIVA;
+        return d;
     }
 
-    public double getCantidad() {
-        return cantidad;
-    }
+    public Double getImporteIVA() { return subtotalIVA; }
 
-    public double getPrecioUnitario() {
-        return precioUnitario;
-    }
+    public Double getTotalConIVA() { return subtotal + subtotalIVA; }
 
-    public double getAlicuotaIVA() {
-        return alicuotaIVA;
-    }
+    // GETTERS
+    public Item getItem() { return item; }
+    public void setItem(Item item) { this.item = item; }
 
-    public double getSubtotal() {
-        return subtotal;
-    }
+    public Double getCantidad() { return cantidad; }
+    public Double getPrecioUnitario() { return precioUnitario; }
+    public Double getAlicuotaIVA() { return alicuotaIVA; }
+    public Double getSubtotal() { return subtotal; }
+    public Double getSubtotalIVA() { return subtotalIVA; }
 
-    /**
-     * Importe de IVA correspondiente a este detalle.
-     * Útil para discriminar IVA por línea en el Libro IVA Compras.
-     */
-    public double getImporteIVA() {
-        return subtotal * alicuotaIVA;
-    }
-
-    /**
-     * Total de la línea incluyendo IVA.
-     */
-    public double getTotalConIVA() {
-        return subtotal + getImporteIVA();
-    }
-
-    // =========================================================
-    // TO STRING (útil para depuración)
-    // =========================================================
     @Override
     public String toString() {
-        return String.format("DetalleDocumento [item=%s, cantidad=%.2f, precioUnit=%.2f, alicuotaIVA=%.0f%%, subtotal=%.2f]",
-                item != null ? item.getCodigo() : "null",
-                cantidad, precioUnitario, alicuotaIVA * 100, subtotal);
+        return "DetalleDocumento{item=" + (item != null ? item.getCodigo() : "null")
+                + ", cant=" + cantidad + ", precioUnit=" + precioUnitario
+                + ", subtotal=$" + subtotal + "}";
     }
 }

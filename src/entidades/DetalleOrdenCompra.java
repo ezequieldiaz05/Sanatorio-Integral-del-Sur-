@@ -1,67 +1,52 @@
 package entidades;
 
-// Representa una línea de una orden de compra
 public class DetalleOrdenCompra {
     private Item item;
     private Double cantidad;
     private Double precioUnitarioAcordado;
     private Double subtotal;
 
-    public DetalleOrdenCompra() {
+    public DetalleOrdenCompra() {}
 
-    }
-
-    // Constructor que calcula automáticamente el subtotal
     public DetalleOrdenCompra(Item item, Double cantidad, Double precioUnitarioAcordado) {
         this.item = item;
         this.cantidad = cantidad;
         this.precioUnitarioAcordado = precioUnitarioAcordado;
-        this.subtotal = this.cantidad * this.precioUnitarioAcordado;
+        this.subtotal = cantidad * precioUnitarioAcordado;
     }
 
-    // Getters y Setters
-    public Item getItem() {
-        return this.item;
+    public static DetalleOrdenCompra crearDetalle(Double cantidad,
+                                                   Double precioUnitarioAcordado,
+                                                   Double subtotal) {
+        DetalleOrdenCompra d = new DetalleOrdenCompra();
+        d.cantidad = cantidad;
+        d.precioUnitarioAcordado = precioUnitarioAcordado;
+        d.subtotal = subtotal;
+        return d;
     }
 
-    public Double getCantidad() {
-        return this.cantidad;
-    }
+    // GETTERS Y SETTERS
+    public Item getItem() { return item; }
+    public void setItem(Item item) { this.item = item; }
 
-    public Double getPrecioUnitarioAcordado() {
-        return this.precioUnitarioAcordado;
-    }
-
-    public Double getSubtotal() {
-        return this.subtotal;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
-    }
-
-    // Cuando cambio cantidad, recalculo el subtotal
+    public Double getCantidad() { return cantidad; }
     public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
-        this.subtotal = this.cantidad * this.precioUnitarioAcordado;
+        if (this.precioUnitarioAcordado != null) this.subtotal = cantidad * precioUnitarioAcordado;
     }
 
-    // Cuando cambio precio, recalculo el subtotal
-    public void setPrecioUnitarioAcordado(Double precioUnitarioAcordado) {
-        this.precioUnitarioAcordado = precioUnitarioAcordado;
-        this.subtotal = this.cantidad * this.precioUnitarioAcordado;
+    public Double getPrecioUnitarioAcordado() { return precioUnitarioAcordado; }
+    public void setPrecioUnitarioAcordado(Double precio) {
+        this.precioUnitarioAcordado = precio;
+        if (this.cantidad != null) this.subtotal = cantidad * precio;
     }
 
-    public void setSubtotal(Double subtotal) {
-        this.subtotal = subtotal;
-    }
+    public Double getSubtotal() { return subtotal; }
+    public void setSubtotal(Double subtotal) { this.subtotal = subtotal; }
 
     @Override
     public String toString() {
-        return "DetalleOC {" +
-                item.getCodigo() +
-                ", cant: " + cantidad +
-                ", $" + subtotal +
-                "}";
+        return "DetalleOC{item=" + (item != null ? item.getCodigo() : "null")
+                + ", cant=" + cantidad + ", subtotal=$" + subtotal + "}";
     }
 }

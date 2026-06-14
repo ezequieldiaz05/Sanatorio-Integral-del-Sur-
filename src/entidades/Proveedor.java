@@ -1,52 +1,118 @@
 package entidades;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Proveedor {
-    private String CUIT;
+    private String cuit;
     private String razonSocial;
     private String nombreComercial;
-    private String domicilio;
-    private String telefono;
     private String correoElectronico;
-    private String condicionImpositiva; //TODO hacer un array para esto, como es una lista predefinida y se usa para hacer otros cálculos, conviene tenerlo como su propio tipo de elemnto
-    private int numeroInscripcionFiscal;
-    private Date fechaInicioActividades;
-    private float limiteDeuda;
-    private List<Rubro> rubros;
-    private List<CertificadoExclusion> certificadoExclusion;
+    private String condicionImpositiva;
+    private LocalDate fechaAltaActividades;
+    private Double limiteCredito;
+    private Double deudaActual;
+    private String estado;
 
-    public Proveedor(String CUIT, String razonSocial, String nombreComercial, String domicilio, String telefono, String correoElectronico, String condicionImpositiva, int numeroInscripcionFiscal, Date fechaInicioActividades, float limiteDeuda, List<Rubro> rubros, List<CertificadoExclusion> certificadoExclusion){
-        this.CUIT = CUIT;
-        this.razonSocial = razonSocial;
-        this.nombreComercial = nombreComercial;
-        this.domicilio = domicilio;
-        this.telefono = telefono;
-        this.correoElectronico = correoElectronico;
-        this.condicionImpositiva = condicionImpositiva;
-        this.numeroInscripcionFiscal = numeroInscripcionFiscal;
-        this.fechaInicioActividades = fechaInicioActividades;
-        this.limiteDeuda = limiteDeuda;
+    private List<Rubro> rubros;
+    private List<CertificadoExclusion> certificadosExclusion;
+
+    public Proveedor() {
         this.rubros = new ArrayList<>();
-        this.certificadoExclusion = new ArrayList<>();
+        this.certificadosExclusion = new ArrayList<>();
+        this.deudaActual = 0.0;
+        this.limiteCredito = 0.0;
+        this.estado = "Activo";
     }
 
-    public agregarRubros(Rubro rubro){
+    public Proveedor(String cuit, String razonSocial, String nombreComercial,
+                     String correoElectronico, String condicionImpositiva,
+                     LocalDate fechaAltaActividades, Double limiteCredito) {
+        this();
+        this.cuit = cuit;
+        this.razonSocial = razonSocial;
+        this.nombreComercial = nombreComercial;
+        this.correoElectronico = correoElectronico;
+        this.condicionImpositiva = condicionImpositiva;
+        this.fechaAltaActividades = fechaAltaActividades;
+        this.limiteCredito = limiteCredito;
+    }
+
+    public void agregarRubro(Rubro rubro) {
         rubros.add(rubro);
     }
 
-    public agregarCertificado(CertificadoExclusion certificadoExclusion){
-        certificadoExclusion.add(certificadoExclusion);
+    public void agregarCertificado(CertificadoExclusion certificado) {
+        this.certificadosExclusion.add(certificado);
     }
 
-    //TODO hacer los cuits, para agregar los cuits y demases
+    public Double calcularDeudaActual() {
+        return this.deudaActual;
+    }
 
-    public void actualizarLimiteDeuda(float nuevoLimite){
-        if (nuevoLimite<0){
-            throw new IllegalArgumentException("El límite no puede ser negativo."); //TODO tirar un try-catch donde sea que lo llame
+    public boolean esAptoParaItem(Item item) {
+        return !rubros.isEmpty();
+    }
+
+    public void marcarEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public List<CertificadoExclusion> getCertificadosVigentes() {
+        List<CertificadoExclusion> vigentes = new ArrayList<>();
+        for (CertificadoExclusion c : certificadosExclusion) {
+            if (c.estaVigente()) vigentes.add(c);
         }
-        this.limiteDeuda = nuevoLimite; 
+        return vigentes;
+    }
+
+    public boolean puedeAsumir(Double monto) {
+        return (deudaActual + monto) <= limiteCredito;
+    }
+
+    public void actualizarDeuda(Double monto) {
+        this.deudaActual += monto;
+    }
+
+    public void actualizarLimiteCredito(Double nuevoLimite) {
+        if (nuevoLimite < 0) throw new IllegalArgumentException("El límite no puede ser negativo.");
+        this.limiteCredito = nuevoLimite;
+    }
+
+    // GETTERS Y SETTERS
+    public String getCuit() { return cuit; }
+    public void setCuit(String cuit) { this.cuit = cuit; }
+
+    public String getRazonSocial() { return razonSocial; }
+    public void setRazonSocial(String razonSocial) { this.razonSocial = razonSocial; }
+
+    public String getNombreComercial() { return nombreComercial; }
+    public void setNombreComercial(String nombreComercial) { this.nombreComercial = nombreComercial; }
+
+    public String getCorreoElectronico() { return correoElectronico; }
+    public void setCorreoElectronico(String correoElectronico) { this.correoElectronico = correoElectronico; }
+
+    public String getCondicionImpositiva() { return condicionImpositiva; }
+    public void setCondicionImpositiva(String condicionImpositiva) { this.condicionImpositiva = condicionImpositiva; }
+
+    public LocalDate getFechaAltaActividades() { return fechaAltaActividades; }
+    public void setFechaAltaActividades(LocalDate fecha) { this.fechaAltaActividades = fecha; }
+
+    public Double getLimiteCredito() { return limiteCredito; }
+    public void setLimiteCredito(Double limiteCredito) { this.limiteCredito = limiteCredito; }
+
+    public Double getDeudaActual() { return deudaActual; }
+    public void setDeudaActual(Double deudaActual) { this.deudaActual = deudaActual; }
+
+    public String getEstado() { return estado; }
+
+    public List<Rubro> getRubros() { return new ArrayList<>(rubros); }
+    public List<CertificadoExclusion> getCertificadosExclusion() { return new ArrayList<>(certificadosExclusion); }
+
+    @Override
+    public String toString() {
+        return "Proveedor{cuit='" + cuit + "', nombre='" + nombreComercial
+                + "', deuda=$" + deudaActual + "}";
     }
 }
