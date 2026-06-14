@@ -1,111 +1,86 @@
 package entidades;
 
 import java.time.LocalDate;
-import java.util.ArrayList;;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrdenCompra {
     private Integer nroOC;
-    private LocalDate fechaEmision;
-    private Proveedor proveedor;
-    private ArrayList detalles;
-    private Double montoTotal;
+    private LocalDate fechaOrdenAcuerdo;
+    private Double montoTotalAcordado;
     private String estado;
 
+    private Proveedor proveedor;
+    private List<DetalleOrdenCompra> detalles;
+
     public OrdenCompra() {
-        this.detalles = new ArrayList();
+        this.detalles = new ArrayList<>();
         this.estado = "Borrador";
-        this.fechaEmision = LocalDate.now();
-        this.montoTotal = 0.0;
+        this.fechaOrdenAcuerdo = LocalDate.now();
+        this.montoTotalAcordado = 0.0;
     }
 
     public OrdenCompra(Integer nroOC, Proveedor proveedor) {
+        this();
         this.nroOC = nroOC;
         this.proveedor = proveedor;
-        this.detalles = new ArrayList();
-        this.estado = "Borrador";
-        this.fechaEmision = LocalDate.now();
-        this.montoTotal = 0.0;
     }
 
-    // Agrega un detalle y recalcula el total
     public void agregarDetalle(DetalleOrdenCompra detalle) {
         this.detalles.add(detalle);
         calcularMontoTotal();
     }
 
-    // Suma los subtotales de todos los detalles
-    public void calcularMontoTotal() {
-        this.montoTotal = 0.0;
-        for (int i = 0; i < this.detalles.size(); i++) {
-            DetalleOrdenCompra det = (DetalleOrdenCompra) this.detalles.get(i);
-            this.montoTotal = this.montoTotal + det.getSubtotal();
+    private void calcularMontoTotal() {
+        this.montoTotalAcordado = 0.0;
+        for (DetalleOrdenCompra det : detalles) {
+            this.montoTotalAcordado += det.getSubtotal();
         }
     }
 
-    // Valida límite de crédito y cambia el estado
     public void confirmarOC() {
-        if (this.proveedor.puedeAsumir(this.montoTotal)) {
+        if (validarOCLimiteCredito()) {
             this.estado = "Emitida";
         } else {
             this.estado = "Pendiente Aprobacion";
         }
     }
 
-    // Getters y Setters
-    public Integer getNroOC() {
-        return this.nroOC;
+    public boolean validarOCLimiteCredito() {
+        return proveedor != null && proveedor.puedeAsumir(montoTotalAcordado);
     }
 
-    public void setNroOC(Integer nroOC) {
-        this.nroOC = nroOC;
+    public void marcarEstado(String nuevoEstado) {
+        this.estado = nuevoEstado;
     }
 
-    public LocalDate getFechaEmision() {
-        return this.fechaEmision;
+    public List<DetalleOrdenCompra> getDetalles() {
+        return new ArrayList<>(detalles);
     }
 
-    public void setFechaEmision(LocalDate fechaEmision) {
-        this.fechaEmision = fechaEmision;
+    public Proveedor obtenerProveedor() {
+        return proveedor;
     }
 
-    public Proveedor getProveedor() {
-        return this.proveedor;
-    }
+    // GETTERS Y SETTERS
+    public Integer getNroOC() { return nroOC; }
+    public void setNroOC(Integer nroOC) { this.nroOC = nroOC; }
 
-    public void setProveedor(Proveedor proveedor) {
-        this.proveedor = proveedor;
-    }
+    public LocalDate getFechaOrdenAcuerdo() { return fechaOrdenAcuerdo; }
+    public void setFechaOrdenAcuerdo(LocalDate fecha) { this.fechaOrdenAcuerdo = fecha; }
 
-    public ArrayList getDetalles() {
-        return this.detalles;
-    }
+    public Double getMontoTotalAcordado() { return montoTotalAcordado; }
 
-    public void setDetalles(ArrayList detalles) {
-        this.detalles = detalles;
-    }
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
 
-    public Double getMontoTotal() {
-        return this.montoTotal;
-    }
-
-    public void setMontoTotal(Double montoTotal) {
-        this.montoTotal = montoTotal;
-    }
-
-    public String getEstado() {
-        return this.estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
+    public Proveedor getProveedor() { return proveedor; }
+    public void setProveedor(Proveedor proveedor) { this.proveedor = proveedor; }
 
     @Override
     public String toString() {
-        return "OC {nro: " + nroOC +
-                ", proveedor: " + proveedor.getNombreComercial() +
-                ", total: $" + montoTotal +
-                ", estado: " + estado +
-                "}";
+        return "OrdenCompra{nro=" + nroOC
+                + ", proveedor=" + (proveedor != null ? proveedor.getNombreComercial() : "N/A")
+                + ", total=$" + montoTotalAcordado + ", estado=" + estado + "}";
     }
 }
