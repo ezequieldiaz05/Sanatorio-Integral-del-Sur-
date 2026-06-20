@@ -53,22 +53,9 @@ public class OrdenPago {
         }
     }
 
-    public void registrarMedioPago(String tipo, Double monto, Map<String, Double> datos) {
-        MedioPago mp;
-        switch (tipo.toLowerCase()) {
-            case "efectivo":
-                mp = new Efectivo(monto);
-                break;
-            case "transferencia":
-                String cbu = datos != null ? datos.getOrDefault("cbu", 0.0).toString() : null;
-                String alias = datos != null ? datos.getOrDefault("alias", 0.0).toString() : null;
-                mp = new Transferencia(monto, cbu != null ? cbu : "", alias != null ? alias : "");
-                break;
-            default:
-                mp = new Efectivo(monto);
+    public void registrarMedioPago(MedioPago medio) {
+            this.mediosDePago.add(medio);
         }
-        mediosDePago.add(mp);
-    }
 
     public void calcularRetenciones() {
         this.totalRetenciones = 0.0;

@@ -3,6 +3,7 @@ package entidades;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import entidades.enums.CondicionImpositiva;
 
 public class Proveedor {
     private String cuit;
@@ -12,8 +13,8 @@ public class Proveedor {
     private String domicilio;
     private String telefono;
     private String nroInscripcionFiscal;
-    private String condicionImpositiva;
-    private LocalDate fechaAltaActividades;
+    private CondicionImpositiva condicionImpositiva;
+    private LocalDate fechaInicioActividades;
     private Double limiteCredito;
     private Double deudaActual;
     private String estado;
@@ -29,17 +30,12 @@ public class Proveedor {
         this.estado = "Activo";
     }
 
-    public Proveedor(String cuit, String razonSocial, String nombreComercial,
-            String correoElectronico, String condicionImpositiva,
-            LocalDate fechaAltaActividades, Double limiteCredito) {
-        this();
+    public Proveedor(String cuit, String razonSocial, CondicionImpositiva condicionImpositiva, LocalDate fechaInicioActividades, Double limiteDeudaAutorizado) {
         this.cuit = cuit;
         this.razonSocial = razonSocial;
-        this.nombreComercial = nombreComercial;
-        this.correoElectronico = correoElectronico;
         this.condicionImpositiva = condicionImpositiva;
-        this.fechaAltaActividades = fechaAltaActividades;
-        this.limiteCredito = limiteCredito;
+        this.fechaInicioActividades = fechaInicioActividades;
+        this.limiteDeudaAutorizado = limiteDeudaAutorizado;
     }
 
     // MÉTODOS DE NEGOCIO
@@ -126,21 +122,22 @@ public class Proveedor {
         this.correoElectronico = correoElectronico;
     }
 
-    public String getCondicionImpositiva() {
+    public CondicionImpositiva getCondicionImpositiva() {
         return condicionImpositiva;
     }
 
-    public void setCondicionImpositiva(String condicionImpositiva) {
+    public void setCondicionImpositiva(CondicionImpositiva condicionImpositiva) {
         this.condicionImpositiva = condicionImpositiva;
     }
 
-    public LocalDate getFechaAltaActividades() {
-        return fechaAltaActividades;
+    public LocalDate getFechaInicioActividades() {
+        return fechaInicioActividades;
     }
 
-    public void setFechaAltaActividades(LocalDate fecha) {
-        this.fechaAltaActividades = fecha;
+    public void setFechaInicioActividades(LocalDate fechaInicioActividades) {
+        this.fechaInicioActividades = fechaInicioActividades;
     }
+    
 
     public Double getLimiteCredito() {
         return limiteCredito;
