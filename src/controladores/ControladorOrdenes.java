@@ -145,6 +145,29 @@ public class ControladorOrdenes {
         System.out.println("Orden confirmada. Estado: " + oc.getEstado());
         return true;
     }
+
+    // Agrega una orden de compra
+    public Boolean agregarOrdenCompra(OrdenCompra orden) {
+    if (orden == null) {
+        System.err.println("Error: Orden nula");
+        return false;
+    }
+
+    if (existeOrdenCompra(orden.getNroOC())) {
+        System.err.println("Error: Orden OC-" + orden.getNroOC() + " ya existe");
+        return false;
+    }
+
+    ordenesCompra.add(orden);
+    
+    // Actualizar deuda del proveedor cuando se agrega la orden
+    if (orden.getProveedor() != null) {
+        orden.getProveedor().actualizarDeuda(orden.getMontoTotal());
+    }
+    
+    System.out.println("✓ Orden agregada: OC-" + orden.getNroOC());
+    return true;
+}
  
     // Agrega un detalle a una orden existente
     public Boolean agregarDetalleAOrden(Integer nroOC, DetalleOrdenCompra detalle) {
@@ -202,5 +225,29 @@ public class ControladorOrdenes {
         for (DetalleOrdenCompra det : oc.getDetalles()) {
             System.out.println("  - " + det);
         }
+    }
+
+    // Obtiene órdenes de un proveedor que contienen items
+    public List<OrdenCompra> getOrdenesParaRubros(Proveedor proveedor) {
+        List<OrdenCompra> resultado = new ArrayList<>();
+
+        if (proveedor == null) {
+            return resultado;
+        }
+
+        for (OrdenCompra oc : ordenesCompra) {
+            if (!oc.getProveedor().equals(proveedor)) {
+                continue;
+            }
+            
+            for (DetalleOrdenCompra det : oc.getDetalles()) {
+                if (det.getItem() != null) {
+                    resultado.add(oc);
+                    break;
+                }
+            }
+        }
+        
+        return resultado;
     }
 }

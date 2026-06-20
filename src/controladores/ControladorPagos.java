@@ -1,4 +1,6 @@
 package controladores;
+
+import controladores.ControladorRetenciones;
  
 import entidades.OrdenPago;
 import entidades.Proveedor;
@@ -28,7 +30,7 @@ public class ControladorPagos {
 
     // METODOS DE AGREGACION
 
-        public Boolean agregarOrdenPago(OrdenPago orden) {
+    public Boolean agregarOrdenPago(OrdenPago orden) {
         if (orden == null) {
             System.err.println("Error: Orden de pago nula");
             return false;
@@ -40,6 +42,13 @@ public class ControladorPagos {
         }
  
         ordenesPago.add(orden);
+
+        // Agregar retenciones automáticamente al ControladorRetenciones
+        ControladorRetenciones controlarRetenciones = ControladorRetenciones.getInstance();
+        for (RetencionImpositiva r : orden.getRetenciones()) {
+            controlarRetenciones.agregarRetencion(r);
+        }
+        
         System.out.println("Orden de pago agregada: " + orden.getNroOP());
         return true;
     }
