@@ -13,9 +13,9 @@ public class OrdenPago {
     // ATRIBUTOS
     private Integer nroOP;
     private LocalDate fechaPago;
-    private Double montoAbaPagar;      // suma de montos de los documentos incluidos (bruto)
+    private Double montoAPagar;      // suma de montos de los documentos incluidos (bruto)
     private Double totalRetenciones;   // suma de todas las retenciones aplicadas
-    private Double totalReferencias;   // monto neto que recibe el proveedor (montoAbaPagar - totalRetenciones)
+    private Double montoNetoAFavor;   // monto neto que recibe el proveedor (montoAbaPagar - totalRetenciones)
     private String estado;             // "Borrador" | "Emitida"
 
     private Proveedor proveedor;
@@ -26,9 +26,9 @@ public class OrdenPago {
     // CONSTRUCTORES
     public OrdenPago() {
         this.fechaPago = LocalDate.now();
-        this.montoAbaPagar = 0.0;
+        this.montoAPagar = 0.0;
         this.totalRetenciones = 0.0;
-        this.totalReferencias = 0.0;
+        this.montoNetoAFavor = 0.0;
         this.estado = "Borrador";
         this.documentos = new ArrayList<>();
         this.retenciones = new ArrayList<>();
@@ -48,7 +48,7 @@ public class OrdenPago {
         if ("Cancelado".equals(estado)) return;
         if (!documentos.contains(doc)) {
             documentos.add(doc);
-            this.montoAbaPagar += doc.getMontoTotal();
+            this.montoAPagar += doc.getMontoTotal();
             calcularMontoNetaFavor();
         }
     }
@@ -65,8 +65,8 @@ public class OrdenPago {
         calcularMontoNetaFavor();
     }
 
-    public void calcularMontoNetaFavor() {
-        this.totalReferencias = this.montoAbaPagar - this.totalRetenciones;
+    public void calcularMontoNetoFavor() {
+        this.montoNetoAFavor = this.montoAPagar - this.totalRetenciones;
     }
 
     public void actualizarEstadoDocumentos() {
@@ -102,7 +102,7 @@ public class OrdenPago {
     public List<RetencionImpositiva> getRetenciones() { 
         return new ArrayList<>(retenciones); 
     }
-    public List<MedioPago> getMediasPago() { 
+    public List<MedioPago> getMediosPago() { 
         return new ArrayList<>(mediosDePago); 
     }
     public List<DocumentoComercial> getDocumentos() { 
@@ -123,14 +123,14 @@ public class OrdenPago {
         this.fechaPago = fechaPago; 
     }
 
-    public Double getMontoAbaPagar() { 
-        return montoAbaPagar; 
+    public Double getMontoAPagar() { 
+        return montoAPagar; 
     }
     public Double getTotalRetenciones() { 
         return totalRetenciones; 
     }
-    public Double getTotalReferencias() { 
-        return totalReferencias; 
+    public Double getMontoNetoAFavor() { 
+        return montoNetoAFavor; 
     }
 
     public String getEstado() { 
@@ -145,20 +145,20 @@ public class OrdenPago {
     }
 
     public Double getMontoBrutoAPagar() {
-        return montoAbaPagar;
+        return montoAPagar;
     }
 
     public Double getMontoNetoAFavor() {
-        return totalReferencias;
+        return montoNetoAFavor;
     }
 
     @Override
     public String toString() {
         return "OrdenPago{nro=" + nroOP
                 + ", proveedor=" + (proveedor != null ? proveedor.getNombreComercial() : "N/A")
-                + ", bruto=$" + montoAbaPagar
+                + ", bruto=$" + montoAPagar
                 + ", retenciones=$" + totalRetenciones
-                + ", neto=$" + totalReferencias
+                + ", neto=$" + montoNetoAFavor
                 + ", estado=" + estado + "}";
     }
 }

@@ -3,51 +3,51 @@ package entidades;
 import java.time.LocalDate;
 
 public class RetencionImpositiva {
-    private String paImpuesto;        // tipo de impuesto: "IIBB", "Ganancias", "IVA", etc.
+    private String tipoImpuesto;        // tipo de impuesto: "IIBB", "Ganancias", "IVA", etc.
     private String ganancia;           // descripción/categoría de la ganancia
-    private Double porcRetenerBase;    // porcentaje base a retener
+    private Double porcentajeRetencion;    // porcentaje a retener
     private Double porcentajeAplicado; // porcentaje efectivamente aplicado (puede diferir si hay CE vigente)
     private Double montoBase;          // monto sobre el cual se calcula la retención
     private Double montoCalculado;     // resultado: montoBase * porcentajeAplicado / 100
     private LocalDate fechaRetencion;
     private Integer nroRetencion;
-    private String numeroComprobante:
+    private String numeroComprobante;
 
     public RetencionImpositiva() {
         this.fechaRetencion = LocalDate.now();
     }
 
-    public static RetencionImpositiva crearRetencion(String paImpuesto, Double porcRetenerBase, Double montoBase) {
+    public static RetencionImpositiva crearRetencion(String tipoImpuesto, Double porcentajeRetencion, Double montoBase) {
         RetencionImpositiva r = new RetencionImpositiva();
-        r.paImpuesto = paImpuesto;
-        r.porcRetenerBase = porcRetenerBase;
+        r.tipoImpuesto = tipoImpuesto;
+        r.porcRetenerBase = porcentajeRetencion;
         r.montoBase = montoBase;
         r.calcularRetencion();
         return r;
     }
 
     public void calcularRetencion() {
-        if (montoBase != null && porcRetenerBase != null) {
-            porcentajeAplicado = porcRetenerBase;
-            montoCalculado = montoBase * (porcentajeAplicado / 100);
+        if (montoBase != null && porcentajeRetencion != null) {
+            porcentajeAplicado = porcentajeRetencion;
+            montoRetenido = montoBase * (porcentajeAplicado / 100);
         }
     }
 
     public Double calcularImpacto() {
-        return montoCalculado != null ? montoCalculado : 0.0;
+        return montoRetenido != null ? montoRetenido : 0.0;
     }
 
     // Backward-compat alias used by OrdenPago
     public Double getMontoRetenido() { 
-        return montoCalculado; 
+        return montoRetenido; 
     }
 
     // GETTERS Y SETTERS
-    public String getPaImpuesto() { 
-        return paImpuesto; 
+    public String getTipoImpuesto() { 
+        return tipoImpuesto; 
     }
-    public void setPaImpuesto(String paImpuesto) { 
-        this.paImpuesto = paImpuesto; 
+    public void setPaImpuesto(String tipoImpuesto) { 
+        this.tipoImpuesto = tipoImpuesto; 
     }
 
     public String getGanancia() { 
@@ -57,11 +57,11 @@ public class RetencionImpositiva {
         this.ganancia = ganancia; 
     }
 
-    public Double getPorcRetenerBase() { 
-        return porcRetenerBase; 
+    public Double getPorcentajeRetencion() { 
+        return porcentajeRetencion; 
     }
-    public void setPorcRetenerBase(Double porcRetenerBase) {
-        this.porcRetenerBase = porcRetenerBase;
+    public void setPorcentajeRetencion(Double porcentajeRetencion) {
+        this.porcentajeRetencion = porcentajeRetencion;
         calcularRetencion();
     }
 
@@ -78,7 +78,7 @@ public class RetencionImpositiva {
     }
 
     public Double getMontoCalculado() { 
-        return montoCalculado; 
+        return montoRetenido; 
     }
 
     public LocalDate getFechaRetencion() { 
@@ -89,7 +89,7 @@ public class RetencionImpositiva {
     }
 
     public String getTipoImpuesto() { 
-        return paImpuesto; 
+        return tipoImpuesto; 
     }
     public Integer getNroRetencion() { 
         return nroRetencion; 
@@ -98,10 +98,10 @@ public class RetencionImpositiva {
         this.nroRetencion = nro; 
     }
     public Double getPorcentajeRetencion() { 
-        return porcRetenerBase; 
+        return porcentajeRetencion; 
     }
     public Double calcularMontoNeto() { 
-        return montoBase - (montoCalculado != null ? montoCalculado : 0.0); 
+        return montoBase - (montoRetenido != null ? montoRetenido : 0.0); 
     }
     public String getNumeroComprobante() { 
         return numeroComprobante; 
@@ -112,8 +112,8 @@ public class RetencionImpositiva {
 
     @Override
     public String toString() {
-        return "RetencionImpositiva{impuesto='" + paImpuesto
+        return "RetencionImpositiva{impuesto='" + tipoImpuesto
                 + "', porcentaje=" + porcentajeAplicado
-                + "%, monto=$" + montoCalculado + "}";
+                + "%, monto=$" + montoRetenido + "}";
     }
 }

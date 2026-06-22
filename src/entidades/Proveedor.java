@@ -176,8 +176,10 @@ public class Proveedor {
         this.limiteCredito = limiteDeuda; 
     }
 
-// Alias para el Controller
-public List<CertificadoExclusion> getCertificados() { return new ArrayList<>(certificadosExclusion); }
+    // Alias para el Controller
+    public List<CertificadoExclusion> getCertificados() { 
+        return new ArrayList<>(certificadosExclusion); 
+    }
 
     @Override
     public String toString() {

@@ -8,21 +8,19 @@ public class Servicio extends Item {
         super();
     }
 
-    public Servicio(String codigo, String nombre, String descripcion, String unidadMedida,
-                    Double precioUnitarioBase, Double alicuotaIVA,
-                    String tipoPrestacion, String detallePrestacion) {
+    public Servicio(String codigo, String nombre, String descripcion, String unidadMedida, Double precioUnitarioBase, Double alicuotaIVA, String tipoPrestacion, String detallePrestacion) {
         super(codigo, nombre, descripcion, unidadMedida, precioUnitarioBase, alicuotaIVA);
         this.tipoPrestacion = tipoPrestacion;
         this.detallePrestacion = detallePrestacion;
     }
 
-    public Boolean estaCompleto() {
+    public boolean estaCompleto() {
         return getCodigo() != null && getDescripcion() != null
                 && tipoPrestacion != null && detallePrestacion != null
                 && getPrecioUnitarioBase() != null;
     }
 
-    public Boolean esValido() {
+    public boolean esValido() {
         return estaCompleto() && getPrecioUnitarioBase() > 0 && getAlicuotaIVA() >= 0;
     }
 

@@ -10,23 +10,21 @@ public class Producto extends Item {
         super();
     }
 
-    public Producto(String codigo, String nombre, String descripcion, String unidadMedida,
-                    Double precioUnitarioBase, Double alicuotaIVA,
-                    LocalDate vencimiento, int stock) {
+    public Producto(String codigo, String nombre, String descripcion, String unidadMedida, Double precioUnitarioBase, Double alicuotaIVA, LocalDate vencimiento, int stock) {
         super(codigo, nombre, descripcion, unidadMedida, precioUnitarioBase, alicuotaIVA);
         this.vencimiento = vencimiento;
         this.stock = stock;
     }
 
-    public Boolean estaVencido() {
+    public boolean estaVencido() {
         return vencimiento != null && LocalDate.now().isAfter(vencimiento);
     }
 
-    public Boolean hayStockDisponible() {
+    public boolean hayStockDisponible() {
         return this.stock > 0;
     }
 
-    public Boolean reducirStock(int cantidad) {
+    public boolean reducirStock(int cantidad) {
         if (cantidad <= this.stock) {
             this.stock -= cantidad;
             return true;
@@ -38,15 +36,22 @@ public class Producto extends Item {
         this.stock += cantidad;
     }
 
-    public LocalDate getVencimiento() { return vencimiento; }
-    public void setVencimiento(LocalDate vencimiento) { this.vencimiento = vencimiento; }
+    public LocalDate getVencimiento() { 
+        return vencimiento; 
+    }
+    public void setVencimiento(LocalDate vencimiento) { 
+        this.vencimiento = vencimiento; 
+    }
 
-    public int getStock() { return stock; }
-    public void setStock(int stock) { this.stock = stock; }
+    public int getStock() { 
+        return stock; 
+    }
+    public void setStock(int stock) { 
+        this.stock = stock; 
+    }
 
     @Override
     public String toString() {
-        return "Producto{codigo='" + getCodigo() + "', nombre='" + getNombre()
-                + "', stock=" + stock + ", vencimiento=" + vencimiento + "}";
+        return "Producto{codigo='" + getCodigo() + "', nombre='" + getNombre() + "', stock=" + stock + ", vencimiento=" + vencimiento + "}";
     }
 }
