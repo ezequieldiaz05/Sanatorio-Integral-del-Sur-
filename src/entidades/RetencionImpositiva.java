@@ -4,11 +4,10 @@ import java.time.LocalDate;
 
 public class RetencionImpositiva {
     private String tipoImpuesto;        // tipo de impuesto: "IIBB", "Ganancias", "IVA", etc.
-    private String ganancia;           // descripción/categoría de la ganancia
     private Double porcentajeRetencion;    // porcentaje a retener
     private Double porcentajeAplicado; // porcentaje efectivamente aplicado (puede diferir si hay CE vigente)
     private Double montoBase;          // monto sobre el cual se calcula la retención
-    private Double montoCalculado;     // resultado: montoBase * porcentajeAplicado / 100
+    private Double montoRetenido;     // resultado: montoBase * porcentajeAplicado / 100
     private LocalDate fechaRetencion;
     private Integer nroRetencion;
     private String numeroComprobante;
@@ -20,7 +19,7 @@ public class RetencionImpositiva {
     public static RetencionImpositiva crearRetencion(String tipoImpuesto, Double porcentajeRetencion, Double montoBase) {
         RetencionImpositiva r = new RetencionImpositiva();
         r.tipoImpuesto = tipoImpuesto;
-        r.porcRetenerBase = porcentajeRetencion;
+        r.porcentajeRetencion = porcentajeRetencion;
         r.montoBase = montoBase;
         r.calcularRetencion();
         return r;
@@ -46,15 +45,8 @@ public class RetencionImpositiva {
     public String getTipoImpuesto() { 
         return tipoImpuesto; 
     }
-    public void setPaImpuesto(String tipoImpuesto) { 
+    public void setTipoImpuesto(String tipoImpuesto) { 
         this.tipoImpuesto = tipoImpuesto; 
-    }
-
-    public String getGanancia() { 
-        return ganancia; 
-    }
-    public void setGanancia(String ganancia) { 
-        this.ganancia = ganancia; 
     }
 
     public Double getPorcentajeRetencion() { 
@@ -88,18 +80,13 @@ public class RetencionImpositiva {
         this.fechaRetencion = fechaRetencion; 
     }
 
-    public String getTipoImpuesto() { 
-        return tipoImpuesto; 
-    }
     public Integer getNroRetencion() { 
         return nroRetencion; 
     }
     public void setNroRetencion(Integer nro) { 
         this.nroRetencion = nro; 
     }
-    public Double getPorcentajeRetencion() { 
-        return porcentajeRetencion; 
-    }
+    
     public Double calcularMontoNeto() { 
         return montoBase - (montoRetenido != null ? montoRetenido : 0.0); 
     }

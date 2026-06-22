@@ -38,7 +38,7 @@ public class NotaCredito extends DocumentoComercial {
         return -getMontoTotal();
     }
 
-    public Double calcularMontaCredito() {
+    public Double calcularMontoCredito() {
         return getMontoTotal();
     }
 

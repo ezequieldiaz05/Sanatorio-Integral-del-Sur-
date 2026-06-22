@@ -8,6 +8,7 @@ public abstract class Item {
     private Double precioUnitarioBase;
     private Double precioIVA;
     private Double alicuotaIVA;
+    private Rubro rubro;
 
     public Item() {}
 
@@ -31,13 +32,30 @@ public abstract class Item {
     }
 
     // GETTERS
-    public String getCodigo() { return codigo; }
-    public String getNombre() { return nombre; }
-    public String getDescripcion() { return descripcion; }
-    public String getUnidadMedida() { return unidadMedida; }
-    public Double getPrecioUnitarioBase() { return precioUnitarioBase; }
-    public Double getPrecioIVA() { return precioIVA; }
-    public Double getAlicuotaIVA() { return alicuotaIVA; }
+    public String getCodigo() { 
+        return codigo; 
+    }
+    public String getNombre() { 
+        return nombre; 
+    }
+    public String getDescripcion() { 
+        return descripcion; 
+    }
+    public String getUnidadMedida() { 
+        return unidadMedida; 
+    }
+    public Double getPrecioUnitarioBase() { 
+        return precioUnitarioBase; 
+    }
+    public Double getPrecioIVA() { 
+        return precioIVA; 
+    }
+    public Double getAlicuotaIVA() { 
+        return alicuotaIVA; 
+    }
+    public Rubro getRubro() { 
+        return rubro; 
+    }
 
     // SETTERS
     public void setCodigo(String codigo) { this.codigo = codigo; }
@@ -51,6 +69,9 @@ public abstract class Item {
     public void setAlicuotaIVA(Double alicuotaIVA) {
         this.alicuotaIVA = alicuotaIVA;
         if (this.precioUnitarioBase != null) this.precioIVA = precioUnitarioBase * alicuotaIVA;
+    }
+    public void setRubro(Rubro rubro) { 
+        this.rubro = rubro; 
     }
 
     @Override

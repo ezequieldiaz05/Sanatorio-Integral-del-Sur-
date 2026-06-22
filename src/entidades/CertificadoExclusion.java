@@ -3,14 +3,14 @@ package entidades;
 import java.time.LocalDate;
 
 public class CertificadoExclusion {
-    private int paImpuesto;       // código numérico del impuesto (ej: 1=IIBB, 2=Ganancias)
+    private String paImpuesto;       // "IVA", "Ganancias", "IIBB"
     private String nombre;         // nombre del certificado
     private LocalDate fechaDesde;
     private LocalDate fechaHasta;
 
     public CertificadoExclusion() {}
 
-    public CertificadoExclusion(int paImpuesto, String nombre,
+    public CertificadoExclusion(String paImpuesto, String nombre,
                                  LocalDate fechaDesde, LocalDate fechaHasta) {
         this.paImpuesto = paImpuesto;
         this.nombre = nombre;
@@ -34,8 +34,8 @@ public class CertificadoExclusion {
     }
 
     // GETTERS Y SETTERS
-    public int getPaImpuesto() { return paImpuesto; }
-    public void setPaImpuesto(int paImpuesto) { this.paImpuesto = paImpuesto; }
+    public String getPaImpuesto() { return paImpuesto; }
+    public void setPaImpuesto(String paImpuesto) { this.paImpuesto = paImpuesto; }
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }

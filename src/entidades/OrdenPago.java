@@ -49,7 +49,7 @@ public class OrdenPago {
         if (!documentos.contains(doc)) {
             documentos.add(doc);
             this.montoAPagar += doc.getMontoTotal();
-            calcularMontoNetaFavor();
+            calcularMontoNetoAFavor();
         }
     }
 
@@ -62,10 +62,10 @@ public class OrdenPago {
         for (RetencionImpositiva r : retenciones) {
             this.totalRetenciones += r.calcularImpacto();
         }
-        calcularMontoNetaFavor();
+        calcularMontoNetoAFavor();
     }
 
-    public void calcularMontoNetoFavor() {
+    public void calcularMontoNetoAFavor() {
         this.montoNetoAFavor = this.montoAPagar - this.totalRetenciones;
     }
 
@@ -146,10 +146,6 @@ public class OrdenPago {
 
     public Double getMontoBrutoAPagar() {
         return montoAPagar;
-    }
-
-    public Double getMontoNetoAFavor() {
-        return montoNetoAFavor;
     }
 
     @Override
