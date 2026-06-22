@@ -27,9 +27,7 @@ public class NotaDebito extends DocumentoComercial {
 
     @Override
     public boolean validarDocumentoAfectado() {
-        if (documentoAfectado == null) return false;
-        if (!obtenerProveedor().equals(documentoAfectado.obtenerProveedor())) return false;
-        return true;
+        return documentoAfectado != null && getProveedor().equals(documentoAfectado.getProveedor());
     }
 
     @Override
@@ -41,10 +39,15 @@ public class NotaDebito extends DocumentoComercial {
         return getMontoTotal();
     }
 
-    public void generaDetalles(Double monto) {
+    public void generarDetalles(Double monto) {
         // Genera detalles de la nota de débito por el monto indicado
     }
 
-    public DocumentoComercial getDocumentoAfectado() { return documentoAfectado; }
-    public void setDocumentoAfectado(DocumentoComercial doc) { this.documentoAfectado = doc; }
+    public DocumentoComercial getDocumentoAfectado() { 
+        return documentoAfectado; 
+    }
+
+    public void setDocumentoAfectado(DocumentoComercial doc) { 
+        this.documentoAfectado = doc; 
+    }
 }

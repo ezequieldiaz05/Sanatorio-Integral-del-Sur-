@@ -7,7 +7,7 @@ import java.util.List;
 public class OrdenCompra {
     private Integer nroOC;
     private LocalDate fechaOrdenAcuerdo;
-    private Double montoTotalAcordado;
+    private Double montoTotalBruto;
     private String estado;
 
     private Proveedor proveedor;
@@ -17,7 +17,7 @@ public class OrdenCompra {
         this.detalles = new ArrayList<>();
         this.estado = "Borrador";
         this.fechaOrdenAcuerdo = LocalDate.now();
-        this.montoTotalAcordado = 0.0;
+        this.montoTotalBruto = 0.0;
     }
 
     public OrdenCompra(Integer nroOC, Proveedor proveedor) {
@@ -32,9 +32,9 @@ public class OrdenCompra {
     }
 
     private void calcularMontoTotal() {
-        this.montoTotalAcordado = 0.0;
+        this.montoTotalBruto = 0.0;
         for (DetalleOrdenCompra det : detalles) {
-            this.montoTotalAcordado += det.getSubtotal();
+            this.montoTotalBruto += det.getSubtotal();
         }
     }
 
@@ -47,7 +47,7 @@ public class OrdenCompra {
     }
 
     public boolean validarOCLimiteCredito() {
-        return proveedor != null && proveedor.puedeAsumir(montoTotalAcordado);
+        return proveedor != null && proveedor.puedeAsumir(montoTotalBruto);
     }
 
     public void marcarEstado(String nuevoEstado) {
@@ -56,10 +56,6 @@ public class OrdenCompra {
 
     public List<DetalleOrdenCompra> getDetalles() {
         return new ArrayList<>(detalles);
-    }
-
-    public Proveedor obtenerProveedor() {
-        return proveedor;
     }
 
     // GETTERS Y SETTERS
@@ -77,8 +73,8 @@ public class OrdenCompra {
         this.fechaOrdenAcuerdo = fecha; 
     }
 
-    public Double getMontoTotalAcordado() { 
-        return montoTotalAcordado; 
+    public Double getMontoTotalBruto() { 
+        return montoTotalBruto; 
     }
 
     public String getEstado() { 
@@ -96,7 +92,7 @@ public class OrdenCompra {
     }
 
     public Double getMontoTotal() { 
-        return montoTotalAcordado; 
+        return montoTotalBruto; 
     }
     public LocalDate getFechaEmision() { 
         return fechaOrdenAcuerdo; 
@@ -106,6 +102,6 @@ public class OrdenCompra {
     public String toString() {
         return "OrdenCompra{nro=" + nroOC
                 + ", proveedor=" + (proveedor != null ? proveedor.getNombreComercial() : "N/A")
-                + ", total=$" + montoTotalAcordado + ", estado=" + estado + "}";
+                + ", total=$" + montoTotalBruto + ", estado=" + estado + "}";
     }
 }

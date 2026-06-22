@@ -7,7 +7,7 @@ import controladores.ControladorPagos;
 import controladores.ControladorRetenciones;
 
 public class App {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         // Obtener la única instancia de cada Controller (Singleton)
         ControladorProveedores ctrlProveedores = ControladorProveedores.getInstance();

@@ -1,4 +1,5 @@
 package entidades.estados;
+
 import entidades.OrdenCompra;
 
 public interface EstadoOrdenCompra {

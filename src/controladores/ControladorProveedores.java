@@ -168,7 +168,7 @@ public class ControladorProveedores {
     // METODOS DE VALIDACION
 
     // Valida si el proveedor puede asumir nueva deuda sin exceder su limite
-    public Boolean puedeasumirDeuda(String cuit, Double monto) {
+    public Boolean puedeAsumirDeuda(String cuit, Double monto) {
         Proveedor p = buscarProveedor(cuit);
  
         if (p == null) {

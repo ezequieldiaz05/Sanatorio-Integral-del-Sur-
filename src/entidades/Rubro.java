@@ -6,9 +6,7 @@ public class Rubro {
     private String nombre;
     private String descripcion;
 
-    public Rubro() {
-
-    }
+    public Rubro() {}
 
     public Rubro(Integer idRubro, String nombre, String descripcion) {
         this.idRubro = idRubro;

@@ -30,17 +30,33 @@ public abstract class Cheque extends MedioPago {
     }
 
     // GETTERS Y SETTERS
-    public String getNroCheque() { return nroCheque; }
-    public void setNroCheque(String nroCheque) { this.nroCheque = nroCheque; }
+    public String getNroCheque() { 
+        return nroCheque; 
+    }
+    public void setNroCheque(String nroCheque) { 
+        this.nroCheque = nroCheque; 
+    }
 
-    public String getBanco() { return banco; }
-    public void setBanco(String banco) { this.banco = banco; }
+    public String getBanco() { 
+        return banco; 
+    }
+    public void setBanco(String banco) { 
+        this.banco = banco; 
+    }
 
-    public LocalDate getFechaEmision() { return fechaEmision; }
-    public void setFechaEmision(LocalDate fechaEmision) { this.fechaEmision = fechaEmision; }
+    public LocalDate getFechaEmision() { 
+        return fechaEmision; 
+    }
+    public void setFechaEmision(LocalDate fechaEmision) { 
+        this.fechaEmision = fechaEmision; 
+    }
 
-    public LocalDate getFechaVencimiento() { return fechaVencimiento; }
-    public void setFechaVencimiento(LocalDate fechaVencimiento) { this.fechaVencimiento = fechaVencimiento; }
+    public LocalDate getFechaVencimiento() { 
+        return fechaVencimiento; 
+    }
+    public void setFechaVencimiento(LocalDate fechaVencimiento) { 
+        this.fechaVencimiento = fechaVencimiento; 
+    }
 
     @Override
     public String toString() {

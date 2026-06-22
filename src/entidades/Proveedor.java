@@ -15,7 +15,7 @@ public class Proveedor {
     private String nroInscripcionFiscal;
     private CondicionImpositiva condicionImpositiva;
     private LocalDate fechaInicioActividades;
-    private Double limiteCredito;
+    private Double limiteDeudaAutorizado;
     private Double deudaActual;
     private String estado;
 
@@ -26,17 +26,18 @@ public class Proveedor {
         this.rubros = new ArrayList<>();
         this.certificadosExclusion = new ArrayList<>();
         this.deudaActual = 0.0;
-        this.limiteCredito = 0.0;
+        this.limiteDeudaAutorizado = 0.0;
         this.estado = "Activo";
     }
 
-    public Proveedor(String cuit, String razonSocial, CondicionImpositiva condicionImpositiva, LocalDate fechaInicioActividades, Double limiteDeudaAutorizado) {
+    public Proveedor(String cuit, String razonSocial, CondicionImpositiva condicionImpositiva, 
+                    LocalDate fechaInicioActividades, Double limiteDeudaAutorizado) {
         this();
         this.cuit = cuit;
         this.razonSocial = razonSocial;
         this.condicionImpositiva = condicionImpositiva;
         this.fechaInicioActividades = fechaInicioActividades;
-        this.limiteCredito = limiteDeudaAutorizado;
+        this.limiteDeudaAutorizado = limiteDeudaAutorizado;
     }
 
     // MÉTODOS DE NEGOCIO
@@ -70,24 +71,25 @@ public class Proveedor {
     public List<CertificadoExclusion> getCertificadosVigentes() {
         List<CertificadoExclusion> vigentes = new ArrayList<>();
         for (CertificadoExclusion c : certificadosExclusion) {
-            if (c.estaVigente())
+            if (c.estaVigente()) {
                 vigentes.add(c);
+            }
         }
         return vigentes;
     }
 
     public boolean puedeAsumir(Double monto) {
-        return (deudaActual + monto) <= limiteCredito;
+        return (deudaActual + monto) <= limiteDeudaAutorizado;
     }
 
     public void actualizarDeuda(Double monto) {
         this.deudaActual += monto;
     }
 
-    public void actualizarLimiteCredito(Double nuevoLimite) {
+    public void actualizarLimiteDeuda(Double nuevoLimite) {
         if (nuevoLimite < 0)
             throw new IllegalArgumentException("El límite no puede ser negativo.");
-        this.limiteCredito = nuevoLimite;
+        this.limiteDeudaAutorizado = nuevoLimite;
     }
 
     // GETTERS Y SETTERS
@@ -139,12 +141,12 @@ public class Proveedor {
         this.fechaInicioActividades = fechaInicioActividades;
     }
 
-    public Double getLimiteCredito() {
-        return limiteCredito;
+    public Double getLimiteDeudaAutorizado() {
+        return limiteDeudaAutorizado;
     }
 
-    public void setLimiteCredito(Double limiteCredito) {
-        this.limiteCredito = limiteCredito;
+    public void setLimiteDeudaAutorizado(Double limiteDeudaAutorizado) {
+        this.limiteDeudaAutorizado = limiteDeudaAutorizado;
     }
 
     public Double getDeudaActual() {
@@ -159,21 +161,41 @@ public class Proveedor {
         return estado;
     }
 
+    public String getDomicilio() { 
+        return domicilio; 
+    }
+    public void setDomicilio(String domicilio) { 
+        this.domicilio = domicilio; 
+    }
+
+    public String getTelefono() { 
+        return telefono; 
+    }
+    public void setTelefono(String telefono) { 
+        this.telefono = telefono; 
+    }
+
+    public String getNroInscripcionFiscal() { 
+        return nroInscripcionFiscal; 
+    }
+    public void setNroInscripcionFiscal(String nro) { 
+        this.nroInscripcionFiscal = nro; 
+    }
+
+    // Alias para el Controller
+    public Double getLimiteDeuda() { 
+        return limiteDeudaAutorizado; 
+    }
+    public void setLimiteDeuda(Double limite) { 
+        this.limiteDeudaAutorizado = limite; 
+    }
+
     public List<Rubro> getRubros() {
         return new ArrayList<>(rubros);
     }
 
     public List<CertificadoExclusion> getCertificadosExclusion() {
         return new ArrayList<>(certificadosExclusion);
-    }
-
-    // Alias para el Controller
-    public Double getLimiteDeuda() { 
-        return limiteCredito; 
-    }
-
-    public void setLimiteDeuda(Double limiteDeuda) { 
-        this.limiteCredito = limiteDeuda; 
     }
 
     // Alias para el Controller

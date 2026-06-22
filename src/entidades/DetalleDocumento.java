@@ -35,19 +35,36 @@ public class DetalleDocumento {
         return d;
     }
 
-    public Double getImporteIVA() { return subtotalIVA; }
+    public Double getImporteIVA() { 
+        return subtotalIVA; 
+    }
 
-    public Double getTotalConIVA() { return subtotal + subtotalIVA; }
+    public Double getTotalConIVA() { 
+        return subtotal + subtotalIVA; 
+    }
 
-    // GETTERS
-    public Item getItem() { return item; }
-    public void setItem(Item item) { this.item = item; }
+    public Item getItem() { 
+        return item; 
+    }
+    public void setItem(Item item) { 
+        this.item = item; 
+    }
 
-    public Double getCantidad() { return cantidad; }
-    public Double getPrecioUnitario() { return precioUnitario; }
-    public Double getAlicuotaIVA() { return alicuotaIVA; }
-    public Double getSubtotal() { return subtotal; }
-    public Double getSubtotalIVA() { return subtotalIVA; }
+    public Double getCantidad() { 
+        return cantidad; 
+    }
+    public Double getPrecioUnitario() { 
+        return precioUnitario; 
+    }
+    public Double getAlicuotaIVA() { 
+        return alicuotaIVA; 
+    }
+    public Double getSubtotal() { 
+        return subtotal; 
+    }
+    public Double getSubtotalIVA() { 
+        return subtotalIVA; 
+    }
 
     @Override
     public String toString() {

@@ -50,6 +50,7 @@ public class ControladorOrdenes {
         }
 
         System.out.println("✓ Orden agregada: OC-" + orden.getNroOC());
+        
         return true;
     }
     // METODOS DE BUSQUEDA
@@ -115,9 +116,14 @@ public class ControladorOrdenes {
 
         // Recorre todas las ordenes y sus detalles
         for (OrdenCompra oc : ordenesCompra) {
+            boolean tieneItemDelRubro = false;
             for (DetalleOrdenCompra det : oc.getDetalles()) {
-                // Verificar si el item pertenece al rubro
-                // (implementar según la lógica de relación Item-Rubro)
+                if (det.getItem() != null && rubro.equals(det.getItem().getRubro())) {
+                    tieneItemDelRubro = true;
+                }
+            }
+            if (tieneItemDelRubro) {
+                resultado.add(oc);
             }
         }
         return resultado;
@@ -219,17 +225,18 @@ public class ControladorOrdenes {
         }
 
         for (OrdenCompra oc : ordenesCompra) {
-            if (!oc.getProveedor().equals(proveedor)) {
-                continue;
-            }
-
+        if (oc.getProveedor().equals(proveedor)) {
+            boolean tieneItem = false;
             for (DetalleOrdenCompra det : oc.getDetalles()) {
                 if (det.getItem() != null) {
-                    resultado.add(oc);
-                    break;
+                    tieneItem = true;
                 }
             }
+            if (tieneItem) {
+                resultado.add(oc);
+            }
         }
+    }
 
         return resultado;
     }

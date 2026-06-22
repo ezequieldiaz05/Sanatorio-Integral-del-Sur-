@@ -11,6 +11,7 @@ public class RetencionImpositiva {
     private LocalDate fechaRetencion;
     private Integer nroRetencion;
     private String numeroComprobante;
+    private String ganancia;
 
     public RetencionImpositiva() {
         this.fechaRetencion = LocalDate.now();
@@ -32,11 +33,10 @@ public class RetencionImpositiva {
         }
     }
 
-    public Double calcularImpacto() {
+    public Double calcularImpuesto() {
         return montoRetenido != null ? montoRetenido : 0.0;
     }
 
-    // Backward-compat alias used by OrdenPago
     public Double getMontoRetenido() { 
         return montoRetenido; 
     }
@@ -69,10 +69,6 @@ public class RetencionImpositiva {
         calcularRetencion();
     }
 
-    public Double getMontoCalculado() { 
-        return montoRetenido; 
-    }
-
     public LocalDate getFechaRetencion() { 
         return fechaRetencion; 
     }
@@ -90,11 +86,20 @@ public class RetencionImpositiva {
     public Double calcularMontoNeto() { 
         return montoBase - (montoRetenido != null ? montoRetenido : 0.0); 
     }
+    
     public String getNumeroComprobante() { 
         return numeroComprobante; 
     }
     public void setNumeroComprobante(String nro) { 
         this.numeroComprobante = nro; 
+    }
+
+    public String getGanancia() {
+        return ganancia;
+    }
+
+    public void setGanancia(String ganancia) {
+        this.ganancia = ganancia;
     }
 
     @Override

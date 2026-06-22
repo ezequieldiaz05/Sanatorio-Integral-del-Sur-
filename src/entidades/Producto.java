@@ -10,7 +10,9 @@ public class Producto extends Item {
         super();
     }
 
-    public Producto(String codigo, String nombre, String descripcion, String unidadMedida, Double precioUnitarioBase, Double alicuotaIVA, LocalDate vencimiento, int stock) {
+    public Producto(String codigo, String nombre, String descripcion, 
+                    String unidadMedida, Double precioUnitarioBase, 
+                    Double alicuotaIVA, LocalDate vencimiento, int stock) {
         super(codigo, nombre, descripcion, unidadMedida, precioUnitarioBase, alicuotaIVA);
         this.vencimiento = vencimiento;
         this.stock = stock;

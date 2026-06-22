@@ -4,7 +4,6 @@ import entidades.documentos.DocumentoComercial;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +11,7 @@ public class OrdenPago {
 
     // ATRIBUTOS
     private Integer nroOP;
-    private LocalDate fechaPago;
+    private LocalDate fechaEmision;
     private Double montoAPagar;      // suma de montos de los documentos incluidos (bruto)
     private Double totalRetenciones;   // suma de todas las retenciones aplicadas
     private Double montoNetoAFavor;   // monto neto que recibe el proveedor (montoAbaPagar - totalRetenciones)
@@ -25,7 +24,7 @@ public class OrdenPago {
 
     // CONSTRUCTORES
     public OrdenPago() {
-        this.fechaPago = LocalDate.now();
+        this.fechaEmision = LocalDate.now();
         this.montoAPagar = 0.0;
         this.totalRetenciones = 0.0;
         this.montoNetoAFavor = 0.0;
@@ -45,7 +44,9 @@ public class OrdenPago {
 
     public void seleccionarDocumentos(DocumentoComercial doc, Map<String, Double> montos) {
         String estado = doc.getEstadoCancelacion();
-        if ("Cancelado".equals(estado)) return;
+        if ("Cancelado".equals(estado)) {
+            return;
+        }
         if (!documentos.contains(doc)) {
             documentos.add(doc);
             this.montoAPagar += doc.getMontoTotal();
@@ -55,12 +56,12 @@ public class OrdenPago {
 
     public void registrarMedioPago(MedioPago medio) {
             this.mediosDePago.add(medio);
-        }
+    }
 
     public void calcularRetenciones() {
         this.totalRetenciones = 0.0;
         for (RetencionImpositiva r : retenciones) {
-            this.totalRetenciones += r.calcularImpacto();
+            this.totalRetenciones += r.calcularImpuesto();
         }
         calcularMontoNetoAFavor();
     }
@@ -116,11 +117,11 @@ public class OrdenPago {
         this.nroOP = nroOP; 
     }
 
-    public LocalDate getFechaPago() { 
-        return fechaPago; 
+    public LocalDate getFechaEmision() { 
+        return fechaEmision; 
     }
-    public void setFechaPago(LocalDate fechaPago) { 
-        this.fechaPago = fechaPago; 
+    public void setFechaEmision(LocalDate fechaEmision) { 
+        this.fechaEmision = fechaEmision; 
     }
 
     public Double getMontoAPagar() { 

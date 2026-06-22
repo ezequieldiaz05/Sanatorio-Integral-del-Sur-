@@ -8,7 +8,7 @@ public class DetalleOrdenCompra {
 
     public DetalleOrdenCompra() {}
 
-    public DetalleOrdenCompra(Item item, Double cantidad, Double precioUnitarioAcordado) {
+    public DetalleOrdenCompra(Item item, Double cantidad, Double precioUnitarioAcordado, Double subtotal) {
         this.item = item;
         this.cantidad = cantidad;
         this.precioUnitarioAcordado = precioUnitarioAcordado;
@@ -26,23 +26,35 @@ public class DetalleOrdenCompra {
     }
 
     // GETTERS Y SETTERS
-    public Item getItem() { return item; }
-    public void setItem(Item item) { this.item = item; }
+    public Item getItem() { 
+        return item; 
+    }
+    public void setItem(Item item) { 
+        this.item = item; 
+    }
 
-    public Double getCantidad() { return cantidad; }
+    public Double getCantidad() { 
+        return cantidad; 
+    }
     public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
         if (this.precioUnitarioAcordado != null) this.subtotal = cantidad * precioUnitarioAcordado;
     }
 
-    public Double getPrecioUnitarioAcordado() { return precioUnitarioAcordado; }
+    public Double getPrecioUnitarioAcordado() { 
+        return precioUnitarioAcordado; 
+    }
     public void setPrecioUnitarioAcordado(Double precio) {
         this.precioUnitarioAcordado = precio;
         if (this.cantidad != null) this.subtotal = cantidad * precio;
     }
 
-    public Double getSubtotal() { return subtotal; }
-    public void setSubtotal(Double subtotal) { this.subtotal = subtotal; }
+    public Double getSubtotal() { 
+        return subtotal; 
+    }
+    public void setSubtotal(Double subtotal) { 
+        this.subtotal = subtotal; 
+    }
 
     @Override
     public String toString() {

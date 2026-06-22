@@ -47,7 +47,9 @@ public abstract class DocumentoComercial {
     public boolean verificarCoherenciaConceptos() {
         for (DetalleDocumento d : detalles) {
             Item item = d.getItem();
-            if (item != null && !proveedor.esAptoParaItem(item)) return false;
+            if (item != null && !proveedor.esAptoParaItem(item)) {
+                return false;
+            }
         }
         return true;
     }
@@ -80,29 +82,62 @@ public abstract class DocumentoComercial {
     }
 
     // GETTERS Y SETTERS
-    public String getNroDocumento() { return nroDocumento; }
-    public void setNroDocumento(String nroDocumento) { this.nroDocumento = nroDocumento; }
+    public String getNroDocumento() { 
+        return nroDocumento; 
+    }
+    public void setNroDocumento(String nroDocumento) { 
+        this.nroDocumento = nroDocumento; 
+    }
 
-    public LocalDate getFechaEmision() { return fechaEmision; }
-    public void setFechaEmision(LocalDate fechaEmision) { this.fechaEmision = fechaEmision; }
+    public LocalDate getFechaEmision() { 
+        return fechaEmision; 
+    }
+    public void setFechaEmision(LocalDate fechaEmision) { 
+        this.fechaEmision = fechaEmision; 
+    }
 
-    public double getMontoNeto() { return montoNeto; }
-    protected void setMontoNeto(double montoNeto) { this.montoNeto = montoNeto; }
+    public double getMontoNeto() { 
+        return montoNeto; 
+    }
+    protected void setMontoNeto(double montoNeto) { 
+        this.montoNeto = montoNeto; 
+    }
 
-    public double getIva() { return iva; }
-    protected void setIva(double iva) { this.iva = iva; }
+    public double getIva() { 
+        return iva; 
+    }
+    protected void setIva(double iva) { 
+        this.iva = iva; 
+    }
 
-    public double getMontoTotal() { return montoTotal; }
-    protected void setMontoTotal(double montoTotal) { this.montoTotal = montoTotal; }
+    public double getMontoTotal() { 
+        return montoTotal; 
+    }
+    protected void setMontoTotal(double montoTotal) { 
+        this.montoTotal = montoTotal; 
+    }
 
-    public String getEstadoCancelacion() { return estadoCancelacion; }
+    public String getEstadoCancelacion() { 
+        return estadoCancelacion; 
+    }
 
-    public Proveedor obtenerProveedor() { return proveedor; }
-    public Proveedor getProveedor() { return proveedor; }
-    public void setProveedor(Proveedor proveedor) { this.proveedor = proveedor; }
+    public Proveedor getProveedor() { 
+        return proveedor; 
+    }
+    public void setProveedor(Proveedor proveedor) { 
+        this.proveedor = proveedor; 
+    }
 
-    public List<DetalleDocumento> getDetalles() { return new ArrayList<>(detalles); }
-    public List<OrdenCompra> getOrdenesCompraAsociadas() { return new ArrayList<>(ordenesCompraAsociadas); }
+    public void marcarCancelacion(String estado) { 
+        marcarEstado(estado); 
+    }
+
+    public List<DetalleDocumento> getDetalles() { 
+        return new ArrayList<>(detalles); 
+    }
+    public List<OrdenCompra> getOrdenesCompraAsociadas() { 
+        return new ArrayList<>(ordenesCompraAsociadas); 
+    }
 
     @Override
     public String toString() {

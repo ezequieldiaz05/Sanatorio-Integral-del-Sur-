@@ -1,7 +1,6 @@
 package controladores;
  
 import entidades.RetencionImpositiva;
-import entidades.Proveedor;
  
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -92,7 +91,7 @@ public class ControladorRetenciones {
         return resultado;
     }
     
-    // Obtiene retenciones vinculadas a un comprobante especifico
+    // Obtiene todas las retenciones
     public List<RetencionImpositiva> getRetenciones() {
         return new ArrayList<>(retenciones);
     }

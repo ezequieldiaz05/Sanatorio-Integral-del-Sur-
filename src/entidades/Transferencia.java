@@ -5,46 +5,58 @@ import java.time.LocalDate;
 public class Transferencia extends MedioPago {
 
     private LocalDate fecha;
-    private String cbu;
-    private String alias;
+    private String nroReferencia;
+    private String cuentaOrigen;
 
     public Transferencia() {
         super();
         this.fecha = LocalDate.now();
     }
 
-    public Transferencia(Double monto, String cbu, String alias) {
+    public Transferencia(Double monto, String nroReferencia, String cuentaOrigen) {
         super(monto);
-        this.cbu = cbu;
-        this.alias = alias;
+        this.nroReferencia = nroReferencia;
+        this.cuentaOrigen = cuentaOrigen;
         this.fecha = LocalDate.now();
     }
 
-    public Transferencia(Double monto, LocalDate fecha, String cbu, String alias) {
+    public Transferencia(Double monto, LocalDate fecha, String nroReferencia, String cuentaOrigen) {
         super(monto);
         this.fecha = fecha;
-        this.cbu = cbu;
-        this.alias = alias;
+        this.nroReferencia = nroReferencia;
+        this.cuentaOrigen = cuentaOrigen;
     }
 
     @Override
     public boolean validar() {
         return getMonto() != null && getMonto() > 0
                 && fecha != null
-                && (cbu != null || alias != null);
+                && (nroReferencia != null && cuentaOrigen != null);
     }
 
-    public LocalDate getFecha() { return fecha; }
-    public void setFecha(LocalDate fecha) { this.fecha = fecha; }
+    public LocalDate getFecha() { 
+        return fecha; 
+    }
+    public void setFecha(LocalDate fecha) { 
+        this.fecha = fecha; 
+    }
 
-    public String getCbu() { return cbu; }
-    public void setCbu(String cbu) { this.cbu = cbu; }
+    public String getNroReferencia() { 
+        return nroReferencia; 
+    }
+    public void setNroReferencia(String nroReferencia) { 
+        this.nroReferencia = nroReferencia; 
+    }
 
-    public String getAlias() { return alias; }
-    public void setAlias(String alias) { this.alias = alias; }
+    public String getCuentaOrigen() { 
+        return cuentaOrigen; 
+    }
+    public void setCuentaOrigen(String cuentaOrigen) { 
+        this.cuentaOrigen = cuentaOrigen; 
+    }
 
     @Override
     public String toString() {
-        return "Transferencia{monto=$" + getMonto() + ", cbu='" + cbu + "', alias='" + alias + "'}";
+        return "Transferencia{monto=$" + getMonto() + ", nroReferencia='" + nroReferencia + "', cuentaOrigen='" + cuentaOrigen + "'}";
     }
 }

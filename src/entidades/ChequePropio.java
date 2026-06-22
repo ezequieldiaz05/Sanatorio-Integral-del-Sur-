@@ -25,8 +25,12 @@ public class ChequePropio extends Cheque {
                 && firmante != null;
     }
 
-    public String getFirmante() { return firmante; }
-    public void setFirmante(String firmante) { this.firmante = firmante; }
+    public String getFirmante() { 
+        return firmante; 
+    }
+    public void setFirmante(String firmante) { 
+        this.firmante = firmante; 
+    }
 
     @Override
     public String toString() {

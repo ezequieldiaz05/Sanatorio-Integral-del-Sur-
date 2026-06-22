@@ -97,8 +97,8 @@ public class ControladorPagos {
         }
  
         for (OrdenPago op : ordenesPago) {
-            if (!op.getFechaPago().isBefore(fechaDesde) &&
-                !op.getFechaPago().isAfter(fechaHasta)) {
+            if (!op.getFechaEmision().isBefore(fechaDesde) &&
+                !op.getFechaEmision().isAfter(fechaHasta)) {
                 resultado.add(op);
             }
         }
@@ -181,7 +181,7 @@ public class ControladorPagos {
         System.out.println("\n=== DETALLES DE LA ORDEN DE PAGO ===");
         System.out.println("Número: " + op.getNroOP());
         System.out.println("Proveedor: " + op.getProveedor().getNombreComercial());
-        System.out.println("Fecha de Pago: " + op.getFechaPago());
+        System.out.println("Fecha de Pago: " + op.getFechaEmision());
         System.out.println("Monto Bruto: $" + op.getMontoBrutoAPagar());
         System.out.println("Total Retenciones: $" + op.getTotalRetenciones());
         System.out.println("Monto Neto: $" + op.getMontoNetoAFavor());

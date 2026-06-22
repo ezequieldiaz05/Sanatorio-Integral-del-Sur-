@@ -8,7 +8,9 @@ public class Servicio extends Item {
         super();
     }
 
-    public Servicio(String codigo, String nombre, String descripcion, String unidadMedida, Double precioUnitarioBase, Double alicuotaIVA, String tipoPrestacion, String detallePrestacion) {
+    public Servicio(String codigo, String nombre, String descripcion, 
+                    String unidadMedida, Double precioUnitarioBase, 
+                    Double alicuotaIVA, String tipoPrestacion, String detallePrestacion) {
         super(codigo, nombre, descripcion, unidadMedida, precioUnitarioBase, alicuotaIVA);
         this.tipoPrestacion = tipoPrestacion;
         this.detallePrestacion = detallePrestacion;
@@ -24,11 +26,19 @@ public class Servicio extends Item {
         return estaCompleto() && getPrecioUnitarioBase() > 0 && getAlicuotaIVA() >= 0;
     }
 
-    public String getTipoPrestacion() { return tipoPrestacion; }
-    public void setTipoPrestacion(String tipoPrestacion) { this.tipoPrestacion = tipoPrestacion; }
+    public String getTipoPrestacion() { 
+        return tipoPrestacion; 
+    }
+    public void setTipoPrestacion(String tipoPrestacion) { 
+        this.tipoPrestacion = tipoPrestacion; 
+    }
 
-    public String getDetallePrestacion() { return detallePrestacion; }
-    public void setDetallePrestacion(String detallePrestacion) { this.detallePrestacion = detallePrestacion; }
+    public String getDetallePrestacion() { 
+        return detallePrestacion; 
+    }
+    public void setDetallePrestacion(String detallePrestacion) { 
+        this.detallePrestacion = detallePrestacion; 
+    }
 
     @Override
     public String toString() {

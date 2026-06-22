@@ -58,10 +58,18 @@ public abstract class Item {
     }
 
     // SETTERS
-    public void setCodigo(String codigo) { this.codigo = codigo; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-    public void setUnidadMedida(String unidadMedida) { this.unidadMedida = unidadMedida; }
+    public void setCodigo(String codigo) { 
+        this.codigo = codigo; 
+    }
+    public void setNombre(String nombre) { 
+        this.nombre = nombre; 
+    }
+    public void setDescripcion(String descripcion) { 
+        this.descripcion = descripcion; 
+    }
+    public void setUnidadMedida(String unidadMedida) { 
+        this.unidadMedida = unidadMedida; 
+    }
     public void setPrecioUnitarioBase(Double precioUnitarioBase) {
         this.precioUnitarioBase = precioUnitarioBase;
         if (this.alicuotaIVA != null) this.precioIVA = precioUnitarioBase * alicuotaIVA;

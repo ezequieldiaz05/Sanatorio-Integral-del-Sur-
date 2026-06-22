@@ -25,8 +25,12 @@ public class ChequeTercero extends Cheque {
                 && firmanteOriginal != null;
     }
 
-    public String getFirmanteOriginal() { return firmanteOriginal; }
-    public void setFirmanteOriginal(String firmanteOriginal) { this.firmanteOriginal = firmanteOriginal; }
+    public String getFirmanteOriginal() { 
+        return firmanteOriginal; 
+    }
+    public void setFirmanteOriginal(String firmanteOriginal) { 
+        this.firmanteOriginal = firmanteOriginal; 
+    }
 
     @Override
     public String toString() {

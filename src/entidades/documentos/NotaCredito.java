@@ -14,8 +14,7 @@ public class NotaCredito extends DocumentoComercial {
         this.documentoAfectado = documentoAfectado;
     }
 
-    public NotaCredito(String nroDocumento, LocalDate fechaEmision,
-                       Proveedor proveedor, DocumentoComercial documentoAfectado) {
+    public NotaCredito(String nroDocumento, LocalDate fechaEmision, Proveedor proveedor, DocumentoComercial documentoAfectado) {
         super(nroDocumento, fechaEmision, proveedor);
         this.documentoAfectado = documentoAfectado;
     }
@@ -27,10 +26,7 @@ public class NotaCredito extends DocumentoComercial {
 
     @Override
     public boolean validarDocumentoAfectado() {
-        if (documentoAfectado == null) return false;
-        if (getMontoTotal() > documentoAfectado.getMontoTotal()) return false;
-        if (!obtenerProveedor().equals(documentoAfectado.obtenerProveedor())) return false;
-        return true;
+        return documentoAfectado != null && getMontoTotal() <= documentoAfectado.getMontoTotal() && getProveedor().equals(documentoAfectado.getProveedor());
     }
 
     @Override
@@ -42,7 +38,7 @@ public class NotaCredito extends DocumentoComercial {
         return getMontoTotal();
     }
 
-    public void generaDetalles(Double monto) {
+    public void generarDetalles(Double monto) {
         // Genera detalles de la nota de crédito por el monto indicado
     }
 

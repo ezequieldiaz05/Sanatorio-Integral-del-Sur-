@@ -30,12 +30,12 @@ public class Factura extends DocumentoComercial {
         List<DetalleOrdenCompra> detallesOC = oc.getDetalles();
 
         for (DetalleDocumento dd : detallesFactura) {
-            if (dd.getItem() == null) continue;
-            for (DetalleOrdenCompra doc : detallesOC) {
-                if (doc.getItem() != null
-                        && dd.getItem().getCodigo().equals(doc.getItem().getCodigo())) {
-                    if (dd.getPrecioUnitario() > doc.getPrecioUnitarioAcordado()) {
-                        return false;
+            if (dd.getItem() != null) {
+                for (DetalleOrdenCompra doc : detallesOC) {
+                    if (doc.getItem() != null && dd.getItem().getCodigo().equals(doc.getItem().getCodigo())) {
+                        if (dd.getPrecioUnitario() > doc.getPrecioUnitarioAcordado()) {
+                            return false;
+                        }
                     }
                 }
             }
@@ -53,7 +53,7 @@ public class Factura extends DocumentoComercial {
         return getMontoTotal();
     }
 
-    public void generaDetalles() {
+    public void generarDetalles() {
         // Genera o recalcula detalles internos de la factura
     }
 }

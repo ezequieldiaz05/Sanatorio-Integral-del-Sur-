@@ -26,8 +26,12 @@ public class Efectivo extends MedioPago {
         return getMonto() != null && getMonto() > 0 && fecha != null;
     }
 
-    public LocalDate getFecha() { return fecha; }
-    public void setFecha(LocalDate fecha) { this.fecha = fecha; }
+    public LocalDate getFecha() { 
+        return fecha; 
+    }
+    public void setFecha(LocalDate fecha) { 
+        this.fecha = fecha; 
+    }
 
     @Override
     public String toString() {
