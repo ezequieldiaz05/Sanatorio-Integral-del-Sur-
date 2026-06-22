@@ -31,11 +31,12 @@ public class Proveedor {
     }
 
     public Proveedor(String cuit, String razonSocial, CondicionImpositiva condicionImpositiva, LocalDate fechaInicioActividades, Double limiteDeudaAutorizado) {
+        this();
         this.cuit = cuit;
         this.razonSocial = razonSocial;
         this.condicionImpositiva = condicionImpositiva;
         this.fechaInicioActividades = fechaInicioActividades;
-        this.limiteDeudaAutorizado = limiteDeudaAutorizado;
+        this.limiteCredito = limiteDeudaAutorizado;
     }
 
     // MÉTODOS DE NEGOCIO
@@ -137,7 +138,6 @@ public class Proveedor {
     public void setFechaInicioActividades(LocalDate fechaInicioActividades) {
         this.fechaInicioActividades = fechaInicioActividades;
     }
-    
 
     public Double getLimiteCredito() {
         return limiteCredito;
@@ -166,6 +166,18 @@ public class Proveedor {
     public List<CertificadoExclusion> getCertificadosExclusion() {
         return new ArrayList<>(certificadosExclusion);
     }
+
+    // Alias para el Controller
+    public Double getLimiteDeuda() { 
+        return limiteCredito; 
+    }
+
+    public void setLimiteDeuda(Double limiteDeuda) { 
+        this.limiteCredito = limiteDeuda; 
+    }
+
+// Alias para el Controller
+public List<CertificadoExclusion> getCertificados() { return new ArrayList<>(certificadosExclusion); }
 
     @Override
     public String toString() {

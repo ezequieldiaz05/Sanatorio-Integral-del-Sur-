@@ -1,6 +1,6 @@
 package controladores;
 
-import controladores.ControladorRetenciones;
+import entidades.RetencionImpositiva;
  
 import entidades.OrdenPago;
 import entidades.Proveedor;

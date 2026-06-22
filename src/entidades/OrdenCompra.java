@@ -63,19 +63,50 @@ public class OrdenCompra {
     }
 
     // GETTERS Y SETTERS
-    public Integer getNroOC() { return nroOC; }
-    public void setNroOC(Integer nroOC) { this.nroOC = nroOC; }
+    public Integer getNroOC() { 
+        return nroOC; 
+    }
+    public void setNroOC(Integer nroOC) { 
+        this.nroOC = nroOC; 
+    }
 
-    public LocalDate getFechaOrdenAcuerdo() { return fechaOrdenAcuerdo; }
-    public void setFechaOrdenAcuerdo(LocalDate fecha) { this.fechaOrdenAcuerdo = fecha; }
+    public LocalDate getFechaOrdenAcuerdo() { 
+        return fechaOrdenAcuerdo; 
+    }
+    public void setFechaOrdenAcuerdo(LocalDate fecha) { 
+        this.fechaOrdenAcuerdo = fecha; 
+    }
 
-    public Double getMontoTotalAcordado() { return montoTotalAcordado; }
+    public Double getMontoTotalAcordado() { 
+        return montoTotalAcordado; 
+    }
 
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
+    public String getEstado() { 
+        return estado; 
+    }
+    public void setEstado(String estado) { 
+        this.estado = estado; 
+    }
 
-    public Proveedor getProveedor() { return proveedor; }
-    public void setProveedor(Proveedor proveedor) { this.proveedor = proveedor; }
+    public Proveedor getProveedor() { 
+        return proveedor; 
+    }
+    public void setProveedor(Proveedor proveedor) { 
+        this.proveedor = proveedor; 
+    }
+
+    // Alias para el Controller
+    public Double getLimiteDeuda() { 
+        return limiteCredito; 
+    }
+    public void setLimiteDeuda(Double limiteDeuda) { 
+        this.limiteCredito = limiteDeuda; 
+    }
+
+    // Alias para el Controller
+    public List<CertificadoExclusion> getCertificados() { 
+        return new ArrayList<>(certificadosExclusion); 
+    }
 
     @Override
     public String toString() {
