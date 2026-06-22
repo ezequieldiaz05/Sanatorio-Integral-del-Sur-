@@ -99,24 +99,58 @@ public class OrdenPago {
     }
 
     // GETTERS
-    public List<RetencionImpositiva> getRetenciones() { return new ArrayList<>(retenciones); }
-    public List<MedioPago> getMediasPago() { return new ArrayList<>(mediosDePago); }
-    public List<DocumentoComercial> getDocumentos() { return new ArrayList<>(documentos); }
+    public List<RetencionImpositiva> getRetenciones() { 
+        return new ArrayList<>(retenciones); 
+    }
+    public List<MedioPago> getMediasPago() { 
+        return new ArrayList<>(mediosDePago); 
+    }
+    public List<DocumentoComercial> getDocumentos() { 
+        return new ArrayList<>(documentos); 
+    }
 
-    public Integer getNroOP() { return nroOP; }
-    public void setNroOP(Integer nroOP) { this.nroOP = nroOP; }
+    public Integer getNroOP() { 
+        return nroOP; 
+    }
+    public void setNroOP(Integer nroOP) { 
+        this.nroOP = nroOP; 
+    }
 
-    public LocalDate getFechaPago() { return fechaPago; }
-    public void setFechaPago(LocalDate fechaPago) { this.fechaPago = fechaPago; }
+    public LocalDate getFechaPago() { 
+        return fechaPago; 
+    }
+    public void setFechaPago(LocalDate fechaPago) { 
+        this.fechaPago = fechaPago; 
+    }
 
-    public Double getMontoAbaPagar() { return montoAbaPagar; }
-    public Double getTotalRetenciones() { return totalRetenciones; }
-    public Double getTotalReferencias() { return totalReferencias; }
+    public Double getMontoAbaPagar() { 
+        return montoAbaPagar; 
+    }
+    public Double getTotalRetenciones() { 
+        return totalRetenciones; 
+    }
+    public Double getTotalReferencias() { 
+        return totalReferencias; 
+    }
 
-    public String getEstado() { return estado; }
+    public String getEstado() { 
+        return estado; 
+    }
 
-    public Proveedor getProveedor() { return proveedor; }
-    public void setProveedor(Proveedor proveedor) { this.proveedor = proveedor; }
+    public Proveedor getProveedor() { 
+        return proveedor; 
+    }
+    public void setProveedor(Proveedor proveedor) { 
+        this.proveedor = proveedor; 
+    }
+
+    public Double getMontoBrutoAPagar() {
+        return montoAbaPagar;
+    }
+
+    public Double getMontoNetoAFavor() {
+        return totalReferencias;
+    }
 
     @Override
     public String toString() {

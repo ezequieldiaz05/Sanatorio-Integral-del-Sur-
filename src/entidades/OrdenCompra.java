@@ -95,17 +95,11 @@ public class OrdenCompra {
         this.proveedor = proveedor; 
     }
 
-    // Alias para el Controller
-    public Double getLimiteDeuda() { 
-        return limiteCredito; 
+    public Double getMontoTotal() { 
+        return montoTotalAcordado; 
     }
-    public void setLimiteDeuda(Double limiteDeuda) { 
-        this.limiteCredito = limiteDeuda; 
-    }
-
-    // Alias para el Controller
-    public List<CertificadoExclusion> getCertificados() { 
-        return new ArrayList<>(certificadosExclusion); 
+    public LocalDate getFechaEmision() { 
+        return fechaOrdenAcuerdo; 
     }
 
     @Override

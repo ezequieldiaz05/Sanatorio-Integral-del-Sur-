@@ -10,14 +10,14 @@ public class RetencionImpositiva {
     private Double montoBase;          // monto sobre el cual se calcula la retención
     private Double montoCalculado;     // resultado: montoBase * porcentajeAplicado / 100
     private LocalDate fechaRetencion;
+    private Integer nroRetencion;
+    private String numeroComprobante:
 
     public RetencionImpositiva() {
         this.fechaRetencion = LocalDate.now();
     }
 
-    public static RetencionImpositiva crearRetencion(String paImpuesto,
-                                                      Double porcRetenerBase,
-                                                      Double montoBase) {
+    public static RetencionImpositiva crearRetencion(String paImpuesto, Double porcRetenerBase, Double montoBase) {
         RetencionImpositiva r = new RetencionImpositiva();
         r.paImpuesto = paImpuesto;
         r.porcRetenerBase = porcRetenerBase;
@@ -38,33 +38,77 @@ public class RetencionImpositiva {
     }
 
     // Backward-compat alias used by OrdenPago
-    public Double getMontoRetenido() { return montoCalculado; }
+    public Double getMontoRetenido() { 
+        return montoCalculado; 
+    }
 
     // GETTERS Y SETTERS
-    public String getPaImpuesto() { return paImpuesto; }
-    public void setPaImpuesto(String paImpuesto) { this.paImpuesto = paImpuesto; }
+    public String getPaImpuesto() { 
+        return paImpuesto; 
+    }
+    public void setPaImpuesto(String paImpuesto) { 
+        this.paImpuesto = paImpuesto; 
+    }
 
-    public String getGanancia() { return ganancia; }
-    public void setGanancia(String ganancia) { this.ganancia = ganancia; }
+    public String getGanancia() { 
+        return ganancia; 
+    }
+    public void setGanancia(String ganancia) { 
+        this.ganancia = ganancia; 
+    }
 
-    public Double getPorcRetenerBase() { return porcRetenerBase; }
+    public Double getPorcRetenerBase() { 
+        return porcRetenerBase; 
+    }
     public void setPorcRetenerBase(Double porcRetenerBase) {
         this.porcRetenerBase = porcRetenerBase;
         calcularRetencion();
     }
 
-    public Double getPorcentajeAplicado() { return porcentajeAplicado; }
+    public Double getPorcentajeAplicado() { 
+        return porcentajeAplicado; 
+    }
 
-    public Double getMontoBase() { return montoBase; }
+    public Double getMontoBase() { 
+        return montoBase; 
+    }
     public void setMontoBase(Double montoBase) {
         this.montoBase = montoBase;
         calcularRetencion();
     }
 
-    public Double getMontoCalculado() { return montoCalculado; }
+    public Double getMontoCalculado() { 
+        return montoCalculado; 
+    }
 
-    public LocalDate getFechaRetencion() { return fechaRetencion; }
-    public void setFechaRetencion(LocalDate fechaRetencion) { this.fechaRetencion = fechaRetencion; }
+    public LocalDate getFechaRetencion() { 
+        return fechaRetencion; 
+    }
+    public void setFechaRetencion(LocalDate fechaRetencion) { 
+        this.fechaRetencion = fechaRetencion; 
+    }
+
+    public String getTipoImpuesto() { 
+        return paImpuesto; 
+    }
+    public Integer getNroRetencion() { 
+        return nroRetencion; 
+    }
+    public void setNroRetencion(Integer nro) { 
+        this.nroRetencion = nro; 
+    }
+    public Double getPorcentajeRetencion() { 
+        return porcRetenerBase; 
+    }
+    public Double calcularMontoNeto() { 
+        return montoBase - (montoCalculado != null ? montoCalculado : 0.0); 
+    }
+    public String getNumeroComprobante() { 
+        return numeroComprobante; 
+    }
+    public void setNumeroComprobante(String nro) { 
+        this.numeroComprobante = nro; 
+    }
 
     @Override
     public String toString() {
