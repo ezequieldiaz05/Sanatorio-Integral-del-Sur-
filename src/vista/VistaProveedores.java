@@ -53,7 +53,7 @@ public class VistaProveedores extends JFrame {
                 "Restricciones: el CUIT es obligatorio y único (clave primaria). "
                 + "La Razón Social y el Nombre Comercial son obligatorios. "
                 + "El Límite de Deuda no puede ser negativo. "
-                + "La Fecha de Inicio usa formato aaaa-mm-dd. "
+                + "La Fecha de Inicio se ingresa como aaaammdd (se formatea automáticamente). "
                 + "Para que un proveedor pueda recibir documentos debe tener al menos un rubro asignado."),
                 BorderLayout.NORTH);
 
@@ -72,7 +72,7 @@ public class VistaProveedores extends JFrame {
         txtEmail = new JTextField(18);
         cmbCondicion = new JComboBox<>(CondicionImpositiva.values());
         txtNroInscripcion = new JTextField(14);
-        txtFechaInicio = new JTextField(12);
+        txtFechaInicio = VistaUtil.crearCampoFecha();
         txtLimite = new JTextField(12);
 
         int fila = 0;
@@ -84,7 +84,7 @@ public class VistaProveedores extends JFrame {
         VistaUtil.addCampo(formulario, gbc, 2, fila++, "Teléfono:", txtTelefono);
         VistaUtil.addCampo(formulario, gbc, 0, fila, "Email:", txtEmail);
         VistaUtil.addCampo(formulario, gbc, 2, fila++, "Nro. Inscripción:", txtNroInscripcion);
-        VistaUtil.addCampo(formulario, gbc, 0, fila, "Fecha Inicio (aaaa-mm-dd):", txtFechaInicio);
+        VistaUtil.addCampo(formulario, gbc, 0, fila, "Fecha Inicio (aaaammdd):", txtFechaInicio);
         VistaUtil.addCampo(formulario, gbc, 2, fila++, "Límite de Deuda:", txtLimite);
 
         norte.add(formulario, BorderLayout.CENTER);
@@ -220,7 +220,8 @@ public class VistaProveedores extends JFrame {
         try {
             return LocalDate.parse(t);
         } catch (DateTimeParseException ex) {
-            JOptionPane.showMessageDialog(this, "La fecha debe tener formato aaaa-mm-dd.",
+            JOptionPane.showMessageDialog(this,
+                    "Fecha inválida: \"" + t + "\". Verificá que el día exista en el mes indicado.",
                     "Validación", JOptionPane.WARNING_MESSAGE);
             return null;
         }
@@ -229,9 +230,19 @@ public class VistaProveedores extends JFrame {
     private void cargarSeleccion() {
         int f = tabla.getSelectedRow();
         if (f < 0) return;
-        txtCuit.setText(String.valueOf(modelo.getValueAt(f, 0)));
-        txtRazonSocial.setText(String.valueOf(modelo.getValueAt(f, 1)));
-        txtNombreComercial.setText(String.valueOf(modelo.getValueAt(f, 2)));
+        String cuit = String.valueOf(modelo.getValueAt(f, 0));
+        Proveedor p = controlador.buscarProveedor(cuit);
+        if (p == null) return;
+        txtCuit.setText(p.getCuit() != null ? p.getCuit() : "");
+        txtRazonSocial.setText(p.getRazonSocial() != null ? p.getRazonSocial() : "");
+        txtNombreComercial.setText(p.getNombreComercial() != null ? p.getNombreComercial() : "");
+        txtDomicilio.setText(p.getDomicilio() != null ? p.getDomicilio() : "");
+        txtTelefono.setText(p.getTelefono() != null ? p.getTelefono() : "");
+        txtEmail.setText(p.getCorreoElectronico() != null ? p.getCorreoElectronico() : "");
+        txtNroInscripcion.setText(p.getNroInscripcionFiscal() != null ? p.getNroInscripcionFiscal() : "");
+        txtFechaInicio.setText(p.getFechaInicioActividades() != null ? p.getFechaInicioActividades().toString() : "");
+        txtLimite.setText(p.getLimiteDeudaAutorizado() != null ? p.getLimiteDeudaAutorizado().toString() : "");
+        if (p.getCondicionImpositiva() != null) cmbCondicion.setSelectedItem(p.getCondicionImpositiva());
     }
 
     private void limpiar() {

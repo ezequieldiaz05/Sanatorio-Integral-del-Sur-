@@ -89,7 +89,7 @@ public class VistaOrdenesCompra extends JFrame {
         VistaUtil.addCampo(pDetalle, g2, 0, 0, "Ítem:", cmbItem);
         VistaUtil.addCampo(pDetalle, g2, 2, 0, "Cantidad:", txtCantidad);
         VistaUtil.addCampo(pDetalle, g2, 4, 0, "Precio Acordado:", txtPrecio);
-        g2.gridx = 5; g2.gridy = 0;
+        g2.gridx = 6; g2.gridy = 0;
         pDetalle.add(btnAgregarDetalle, g2);
         norte.add(pDetalle);
         norte.add(Box.createVerticalStrut(8));
@@ -164,8 +164,16 @@ public class VistaOrdenesCompra extends JFrame {
         }
         Double cantidad = VistaUtil.parsearDouble(this, txtCantidad.getText(), "Cantidad");
         if (cantidad == null) return;
+        if (cantidad <= 0) {
+            JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor a cero.",
+                    "Validación", JOptionPane.WARNING_MESSAGE); return;
+        }
         Double precio = VistaUtil.parsearDouble(this, txtPrecio.getText(), "Precio Acordado");
         if (precio == null) return;
+        if (precio <= 0) {
+            JOptionPane.showMessageDialog(this, "El precio debe ser mayor a cero.",
+                    "Validación", JOptionPane.WARNING_MESSAGE); return;
+        }
 
         DetalleOrdenCompra det = new DetalleOrdenCompra(item, cantidad, precio, cantidad * precio);
         detallesTemp.add(det);

@@ -44,11 +44,6 @@ public class ControladorOrdenes {
 
         ordenesCompra.add(orden);
 
-        // Actualizar deuda del proveedor cuando se agrega la orden
-        if (orden.getProveedor() != null) {
-            orden.getProveedor().actualizarDeuda(orden.getMontoTotal());
-        }
-
         System.out.println("✓ Orden agregada: OC-" + orden.getNroOC());
         
         return true;
@@ -99,7 +94,7 @@ public class ControladorOrdenes {
         }
 
         for (OrdenCompra oc : ordenesCompra) {
-            if (oc.getProveedor().equals(proveedor)) {
+            if (oc.getProveedor() != null && oc.getProveedor().equals(proveedor)) {
                 resultado.add(oc);
             }
         }
@@ -155,6 +150,10 @@ public class ControladorOrdenes {
         // Valida automaticamente contra el limite del proveedor
         oc.confirmarOC();
         System.out.println("Orden confirmada. Estado: " + oc.getEstado());
+        // Solo actualiza la deuda cuando la OC queda efectivamente emitida
+        if ("Emitida".equals(oc.getEstado()) && oc.getProveedor() != null) {
+            oc.getProveedor().actualizarDeuda(oc.getMontoTotal());
+        }
         return true;
     }
 
@@ -169,6 +168,11 @@ public class ControladorOrdenes {
 
         if (detalle == null) {
             System.err.println("Error: Detalle nulo");
+            return false;
+        }
+
+        if (!"Borrador".equals(oc.getEstado())) {
+            System.err.println("Error: Solo se pueden agregar detalles a una OC en estado Borrador");
             return false;
         }
 
@@ -216,8 +220,8 @@ public class ControladorOrdenes {
         }
     }
 
-    // Obtiene órdenes de un proveedor que contienen items
-    public List<OrdenCompra> getOrdenesParaRubros(Proveedor proveedor) {
+    // Obtiene órdenes de un proveedor que contienen al menos un item
+    public List<OrdenCompra> getOrdenesConItems(Proveedor proveedor) {
         List<OrdenCompra> resultado = new ArrayList<>();
 
         if (proveedor == null) {
@@ -225,18 +229,15 @@ public class ControladorOrdenes {
         }
 
         for (OrdenCompra oc : ordenesCompra) {
-        if (oc.getProveedor().equals(proveedor)) {
-            boolean tieneItem = false;
-            for (DetalleOrdenCompra det : oc.getDetalles()) {
-                if (det.getItem() != null) {
-                    tieneItem = true;
+            if (oc.getProveedor() != null && oc.getProveedor().equals(proveedor)) {
+                for (DetalleOrdenCompra det : oc.getDetalles()) {
+                    if (det.getItem() != null) {
+                        resultado.add(oc);
+                        break;
+                    }
                 }
             }
-            if (tieneItem) {
-                resultado.add(oc);
-            }
         }
-    }
 
         return resultado;
     }

@@ -1,6 +1,7 @@
 package controladores;
  
 import entidades.documentos.DocumentoComercial;
+import entidades.documentos.NotaCredito;
 import entidades.Proveedor;
  
 import java.time.LocalDate;
@@ -97,7 +98,7 @@ public class ControladorDocumentos {
         }
  
         for (DocumentoComercial dc : documentosComerciales) {
-            if (dc.getProveedor().equals(proveedor)) {
+            if (dc.getProveedor() != null && dc.getProveedor().equals(proveedor)) {
                 resultado.add(dc);
             }
         }
@@ -167,9 +168,15 @@ public class ControladorDocumentos {
         return saldo;
     }
     
-    // Obtiene el Libro IVA de Compras en un periodo. 
+    // Obtiene el Libro IVA de Compras en un periodo (excluye Notas de Crédito).
     public List<DocumentoComercial> getLibroIVACompras(LocalDate fechaDesde, LocalDate fechaHasta) {
-        return getDocumentosPorPeriodo(fechaDesde, fechaHasta);
+        List<DocumentoComercial> resultado = new ArrayList<>();
+        for (DocumentoComercial dc : getDocumentosPorPeriodo(fechaDesde, fechaHasta)) {
+            if (!(dc instanceof NotaCredito)) {
+                resultado.add(dc);
+            }
+        }
+        return resultado;
     }
     
     // Obtiene el monto total de IVA en un periodo.

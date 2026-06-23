@@ -55,7 +55,8 @@ public class Proveedor {
     }
 
     public boolean esAptoParaItem(Item item) {
-        return !rubros.isEmpty();
+        if (item == null || item.getRubro() == null) return false;
+        return rubros.contains(item.getRubro());
     }
 
     public void marcarEstado(String estado) {

@@ -25,7 +25,7 @@ public class VistaItems extends JFrame {
     private JTextField txtDescripcion;
     private JTextField txtUnidad;
     private JTextField txtPrecio;
-    private JTextField txtAlicuota;
+    private JComboBox<Double> cmbAlicuota;
     private JComboBox<Rubro> cmbRubro;
     private JComboBox<String> cmbTipo;
 
@@ -66,11 +66,13 @@ public class VistaItems extends JFrame {
         txtDescripcion = new JTextField(18);
         txtUnidad = new JTextField(12);
         txtPrecio = new JTextField(10);
-        txtAlicuota = new JTextField(10);
+        cmbAlicuota = new JComboBox<>(new Double[]{0.0, 2.5, 5.0, 10.5, 21.0, 27.0});
+        cmbAlicuota.setSelectedItem(21.0);
+        cmbAlicuota.setRenderer(VistaUtil.rendererAlicuota(1.0));
         cmbRubro = new JComboBox<>();
         cmbTipo = new JComboBox<>(new String[]{"Producto", "Servicio"});
         txtStock = new JTextField(10);
-        txtVencimiento = new JTextField(10);
+        txtVencimiento = VistaUtil.crearCampoFecha();
         txtTipoPrestacion = new JTextField(14);
         txtDetallePrestacion = new JTextField(14);
 
@@ -81,15 +83,25 @@ public class VistaItems extends JFrame {
         addCampo(formulario, gbc, 0, fila, "Descripción:", txtDescripcion);
         addCampo(formulario, gbc, 2, fila++, "Unidad Medida:", txtUnidad);
         addCampo(formulario, gbc, 0, fila, "Precio Base:", txtPrecio);
-        addCampo(formulario, gbc, 2, fila++, "Alícuota IVA:", txtAlicuota);
+        addCampo(formulario, gbc, 2, fila++, "Alícuota IVA (%):", cmbAlicuota);
         addCampo(formulario, gbc, 0, fila, "Rubro:", cmbRubro);
         addCampo(formulario, gbc, 2, fila++, "Tipo:", cmbTipo);
         addCampo(formulario, gbc, 0, fila, "Stock (Producto):", txtStock);
-        addCampo(formulario, gbc, 2, fila++, "Vencim. (aaaa-mm-dd):", txtVencimiento);
+        addCampo(formulario, gbc, 2, fila++, "Vencimiento (aaaammdd):", txtVencimiento);
         addCampo(formulario, gbc, 0, fila, "Tipo Prest. (Servicio):", txtTipoPrestacion);
         addCampo(formulario, gbc, 2, fila++, "Detalle Prest.:", txtDetallePrestacion);
 
-        panel.add(formulario, BorderLayout.NORTH);
+        JPanel norte = new JPanel();
+        norte.setLayout(new BoxLayout(norte, BoxLayout.Y_AXIS));
+        norte.add(VistaUtil.crearNota(
+                "Restricciones: el Código es único y obligatorio. Debe seleccionarse un Rubro "
+                + "(si no hay ninguno, creá uno primero en el módulo de Rubros). "
+                + "La Alícuota IVA tiene valores fijos: 0%, 2.5%, 5%, 10.5%, 21% y 27%. "
+                + "El Vencimiento es opcional para Productos (aaaammdd); si el día no existe en el mes indicado se rechaza. "
+                + "Comparar Precios muestra en consola los precios del ítem entre distintos proveedores."));
+        norte.add(Box.createVerticalStrut(8));
+        norte.add(formulario);
+        panel.add(norte, BorderLayout.NORTH);
 
         // Tabla
         modelo = new DefaultTableModel(
@@ -156,8 +168,7 @@ public class VistaItems extends JFrame {
 
         Double precio = parsearDouble(txtPrecio.getText(), "Precio Base");
         if (precio == null) return;
-        Double alicuota = parsearDouble(txtAlicuota.getText(), "Alícuota IVA");
-        if (alicuota == null) return;
+        Double alicuota = (Double) cmbAlicuota.getSelectedItem();
 
         Item item;
         if ("Producto".equals(cmbTipo.getSelectedItem())) {
@@ -229,7 +240,8 @@ public class VistaItems extends JFrame {
         try {
             return LocalDate.parse(t);
         } catch (DateTimeParseException ex) {
-            JOptionPane.showMessageDialog(this, "La fecha debe tener formato aaaa-mm-dd.",
+            JOptionPane.showMessageDialog(this,
+                    "Fecha inválida: \"" + t + "\". Verificá que el día exista en el mes indicado.",
                     "Validación", JOptionPane.WARNING_MESSAGE);
             return null;
         }
@@ -241,7 +253,7 @@ public class VistaItems extends JFrame {
         txtDescripcion.setText("");
         txtUnidad.setText("");
         txtPrecio.setText("");
-        txtAlicuota.setText("");
+        cmbAlicuota.setSelectedItem(21.0);
         txtStock.setText("");
         txtVencimiento.setText("");
         txtTipoPrestacion.setText("");

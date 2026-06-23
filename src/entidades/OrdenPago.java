@@ -5,7 +5,6 @@ import entidades.documentos.DocumentoComercial;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class OrdenPago {
 
@@ -42,9 +41,8 @@ public class OrdenPago {
 
     // MÉTODOS DEL DIAGRAMA
 
-    public void seleccionarDocumentos(DocumentoComercial doc, Map<String, Double> montos) {
-        String estado = doc.getEstadoCancelacion();
-        if ("Cancelado".equals(estado)) {
+    public void seleccionarDocumentos(DocumentoComercial doc) {
+        if ("Cancelado".equals(doc.getEstadoCancelacion())) {
             return;
         }
         if (!documentos.contains(doc)) {
@@ -77,6 +75,7 @@ public class OrdenPago {
     }
 
     public void emitirOrdenPago() {
+        if ("Emitida".equals(this.estado)) return;
         calcularRetenciones();
         actualizarEstadoDocumentos();
         this.estado = "Emitida";

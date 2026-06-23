@@ -47,7 +47,7 @@ public class ControladorRetenciones {
         }
  
         for (RetencionImpositiva r : retenciones) {
-            if (r.getNroRetencion().equals(nroRetencion)) {
+            if (nroRetencion.equals(r.getNroRetencion())) {
                 return r;
             }
         }
@@ -134,7 +134,7 @@ public class ControladorRetenciones {
         }
  
         for (RetencionImpositiva r : retenciones) {
-            if (r.getNumeroComprobante().equals(numeroComprobante)) {
+            if (numeroComprobante.equals(r.getNumeroComprobante())) {
                 resultado.add(r);
             }
         }

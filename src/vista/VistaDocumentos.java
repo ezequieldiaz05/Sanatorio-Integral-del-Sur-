@@ -32,7 +32,7 @@ public class VistaDocumentos extends JFrame {
     private JComboBox<Item> cmbItem;
     private JTextField txtCantidad;
     private JTextField txtPrecio;
-    private JTextField txtAlicuota;
+    private JComboBox<Double> cmbAlicuota;
 
     private final List<DetalleDocumento> detallesTemp = new ArrayList<>();
     private DefaultTableModel modeloDetalles;
@@ -80,6 +80,7 @@ public class VistaDocumentos extends JFrame {
         cmbAfectado = new JComboBox<>();
         cmbAfectado.setEnabled(false);
         cmbTipo.addActionListener(e -> actualizarEstadoAfectado());
+        cmbProveedor.addActionListener(e -> actualizarDocumentosAfectados());
 
         VistaUtil.addCampo(cabecera, gbc, 0, 0, "Nº Documento:", txtNroDoc);
         VistaUtil.addCampo(cabecera, gbc, 2, 0, "Proveedor:", cmbProveedor);
@@ -98,15 +99,17 @@ public class VistaDocumentos extends JFrame {
         cmbItem = new JComboBox<>();
         txtCantidad = new JTextField(7);
         txtPrecio = new JTextField(8);
-        txtAlicuota = new JTextField(6);
+        cmbAlicuota = new JComboBox<>(new Double[]{0.0, 0.025, 0.05, 0.105, 0.21, 0.27});
+        cmbAlicuota.setSelectedItem(0.21);
+        cmbAlicuota.setRenderer(VistaUtil.rendererAlicuota(100.0));
         JButton btnAgregarDetalle = new JButton("Agregar Detalle");
         btnAgregarDetalle.addActionListener(e -> agregarDetalle());
 
         VistaUtil.addCampo(pDetalle, g2, 0, 0, "Ítem:", cmbItem);
         VistaUtil.addCampo(pDetalle, g2, 2, 0, "Cantidad:", txtCantidad);
         VistaUtil.addCampo(pDetalle, g2, 4, 0, "Precio Unit.:", txtPrecio);
-        VistaUtil.addCampo(pDetalle, g2, 6, 0, "Alícuota IVA (ej 0.21):", txtAlicuota);
-        g2.gridx = 7; g2.gridy = 0;
+        VistaUtil.addCampo(pDetalle, g2, 6, 0, "Alícuota IVA:", cmbAlicuota);
+        g2.gridx = 8; g2.gridy = 0;
         pDetalle.add(btnAgregarDetalle, g2);
         norte.add(pDetalle);
         norte.add(Box.createVerticalStrut(8));
@@ -171,9 +174,17 @@ public class VistaDocumentos extends JFrame {
         for (Item it : controladorItems.getItems()) {
             cmbItem.addItem(it);
         }
+        actualizarDocumentosAfectados();
+    }
+
+    private void actualizarDocumentosAfectados() {
         cmbAfectado.removeAllItems();
+        Proveedor p = (Proveedor) cmbProveedor.getSelectedItem();
+        if (p == null) return;
         for (DocumentoComercial dc : controlador.getDocumentos()) {
-            cmbAfectado.addItem(dc);
+            if (p.equals(dc.getProveedor())) {
+                cmbAfectado.addItem(dc);
+            }
         }
     }
 
@@ -189,8 +200,7 @@ public class VistaDocumentos extends JFrame {
         if (cantidad == null) return;
         Double precio = VistaUtil.parsearDouble(this, txtPrecio.getText(), "Precio Unit.");
         if (precio == null) return;
-        Double alicuota = VistaUtil.parsearDouble(this, txtAlicuota.getText(), "Alícuota IVA");
-        if (alicuota == null) return;
+        Double alicuota = (Double) cmbAlicuota.getSelectedItem();
 
         DetalleDocumento det = DetalleDocumento.crearDetalle(item, cantidad, precio, alicuota);
         detallesTemp.add(det);
@@ -200,7 +210,7 @@ public class VistaDocumentos extends JFrame {
 
         txtCantidad.setText("");
         txtPrecio.setText("");
-        txtAlicuota.setText("");
+        cmbAlicuota.setSelectedItem(0.21);
     }
 
     private void crearDocumento() {
@@ -278,7 +288,7 @@ public class VistaDocumentos extends JFrame {
         txtNroDoc.setText("");
         txtCantidad.setText("");
         txtPrecio.setText("");
-        txtAlicuota.setText("");
+        cmbAlicuota.setSelectedItem(0.21);
         detallesTemp.clear();
         modeloDetalles.setRowCount(0);
         cargarCombos();

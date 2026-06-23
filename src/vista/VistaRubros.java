@@ -59,7 +59,16 @@ public class VistaRubros extends JFrame {
         gbc.gridx = 1;
         formulario.add(txtDescripcion, gbc);
 
-        panel.add(formulario, BorderLayout.NORTH);
+        JPanel norte = new JPanel();
+        norte.setLayout(new BoxLayout(norte, BoxLayout.Y_AXIS));
+        norte.add(VistaUtil.crearNota(
+                "Restricciones: el ID es único, obligatorio y debe ser un número entero. "
+                + "El Nombre es obligatorio. "
+                + "Los Rubros son el punto de partida del sistema: proveedores e ítems los necesitan "
+                + "para poder ser creados. Para editar, seleccioná un rubro de la tabla y usá Actualizar."));
+        norte.add(Box.createVerticalStrut(8));
+        norte.add(formulario);
+        panel.add(norte, BorderLayout.NORTH);
 
         // Tabla
         modelo = new DefaultTableModel(new Object[]{"ID", "Nombre", "Descripción"}, 0) {

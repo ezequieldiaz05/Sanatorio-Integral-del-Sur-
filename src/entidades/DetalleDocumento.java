@@ -13,13 +13,13 @@ public class DetalleDocumento {
     public DetalleDocumento() {}
 
     public static DetalleDocumento crearDetalle(Double cantidad, Double precioUnitario,
-                                                Double alicuotaIVA, Double subtotalIVA) {
+                                                Double alicuotaIVA) {
         DetalleDocumento d = new DetalleDocumento();
         d.cantidad = cantidad;
         d.precioUnitario = precioUnitario;
         d.alicuotaIVA = alicuotaIVA;
         d.subtotal = cantidad * precioUnitario;
-        d.subtotalIVA = subtotalIVA;
+        d.subtotalIVA = d.subtotal * alicuotaIVA;
         return d;
     }
 

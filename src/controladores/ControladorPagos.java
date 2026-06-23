@@ -81,7 +81,7 @@ public class ControladorPagos {
         }
  
         for (OrdenPago op : ordenesPago) {
-            if (op.getProveedor().equals(proveedor)) {
+            if (op.getProveedor() != null && op.getProveedor().equals(proveedor)) {
                 resultado.add(op);
             }
         }

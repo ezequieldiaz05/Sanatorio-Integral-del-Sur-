@@ -17,7 +17,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 // ABM de Órdenes de Pago: selección de documentos, retenciones y medios de pago.
@@ -250,8 +249,16 @@ public class VistaOrdenesPago extends JFrame {
     private void agregarRetencion() {
         Double porcentaje = VistaUtil.parsearDouble(this, txtPorcentaje.getText(), "Porcentaje");
         if (porcentaje == null) return;
+        if (porcentaje <= 0 || porcentaje > 100) {
+            JOptionPane.showMessageDialog(this, "El porcentaje debe estar entre 0 y 100.",
+                    "Validación", JOptionPane.WARNING_MESSAGE); return;
+        }
         Double base = VistaUtil.parsearDouble(this, txtBase.getText(), "Base imponible");
         if (base == null) return;
+        if (base <= 0) {
+            JOptionPane.showMessageDialog(this, "La base imponible debe ser mayor a cero.",
+                    "Validación", JOptionPane.WARNING_MESSAGE); return;
+        }
 
         String tipo = (String) cmbTipoRet.getSelectedItem();
         RetencionImpositiva ret = RetencionImpositiva.crearRetencion(tipo, porcentaje, base);
@@ -265,6 +272,10 @@ public class VistaOrdenesPago extends JFrame {
     private void agregarMedio() {
         Double monto = VistaUtil.parsearDouble(this, txtMonto.getText(), "Monto");
         if (monto == null) return;
+        if (monto <= 0) {
+            JOptionPane.showMessageDialog(this, "El monto debe ser mayor a cero.",
+                    "Validación", JOptionPane.WARNING_MESSAGE); return;
+        }
 
         String tipo = (String) cmbTipoMedio.getSelectedItem();
         String ref = txtReferencia.getText().trim();
@@ -314,13 +325,23 @@ public class VistaOrdenesPago extends JFrame {
 
         OrdenPago op = new OrdenPago(nro, proveedor);
         for (DocumentoComercial doc : docsTemp) {
-            op.seleccionarDocumentos(doc, new HashMap<>());
+            op.seleccionarDocumentos(doc);
         }
         for (RetencionImpositiva ret : retencionesTemp) {
             op.agregarRetencion(ret);
         }
         for (MedioPago medio : mediosTemp) {
             op.agregarMedioPago(medio);
+        }
+
+        double totalMedios = op.getTotalMediosPago();
+        double montoNeto = op.getMontoNetoAFavor();
+        if (Math.abs(totalMedios - montoNeto) > 0.001) {
+            JOptionPane.showMessageDialog(this,
+                    String.format("Los medios de pago ($%.2f) no cubren el monto neto a pagar ($%.2f).",
+                            totalMedios, montoNeto),
+                    "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
         if (controlador.agregarOrdenPago(op)) {

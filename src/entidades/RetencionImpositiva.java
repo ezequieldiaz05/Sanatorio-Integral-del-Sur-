@@ -11,7 +11,6 @@ public class RetencionImpositiva {
     private LocalDate fechaRetencion;
     private Integer nroRetencion;
     private String numeroComprobante;
-    private String ganancia;
 
     public RetencionImpositiva() {
         this.fechaRetencion = LocalDate.now();
@@ -92,14 +91,6 @@ public class RetencionImpositiva {
     }
     public void setNumeroComprobante(String nro) { 
         this.numeroComprobante = nro; 
-    }
-
-    public String getGanancia() {
-        return ganancia;
-    }
-
-    public void setGanancia(String ganancia) {
-        this.ganancia = ganancia;
     }
 
     @Override
