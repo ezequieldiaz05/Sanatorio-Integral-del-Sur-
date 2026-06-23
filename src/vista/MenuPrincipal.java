@@ -31,11 +31,11 @@ public class MenuPrincipal extends JFrame {
 
         botonera.add(crearBoton("Rubros", e -> new VistaRubros().setVisible(true)));
         botonera.add(crearBoton("Ítems (Productos y Servicios)", e -> new VistaItems().setVisible(true)));
-        botonera.add(crearBoton("Proveedores", e -> proximamente("Proveedores")));
-        botonera.add(crearBoton("Órdenes de Compra", e -> proximamente("Órdenes de Compra")));
-        botonera.add(crearBoton("Documentos Comerciales", e -> proximamente("Documentos Comerciales")));
-        botonera.add(crearBoton("Órdenes de Pago", e -> proximamente("Órdenes de Pago")));
-        botonera.add(crearBoton("Consultas y Reportes", e -> proximamente("Consultas y Reportes")));
+        botonera.add(crearBoton("Proveedores", e -> new VistaProveedores().setVisible(true)));
+        botonera.add(crearBoton("Órdenes de Compra", e -> new VistaOrdenesCompra().setVisible(true)));
+        botonera.add(crearBoton("Documentos Comerciales", e -> new VistaDocumentos().setVisible(true)));
+        botonera.add(crearBoton("Órdenes de Pago", e -> new VistaOrdenesPago().setVisible(true)));
+        botonera.add(crearBoton("Consultas y Reportes", e -> new VistaReportes().setVisible(true)));
 
         panel.add(botonera, BorderLayout.CENTER);
 
@@ -56,11 +56,5 @@ public class MenuPrincipal extends JFrame {
         boton.setPreferredSize(new Dimension(0, 40));
         boton.addActionListener(accion);
         return boton;
-    }
-
-    private void proximamente(String modulo) {
-        JOptionPane.showMessageDialog(this,
-                "El módulo \"" + modulo + "\" todavía no está implementado.",
-                "Próximamente", JOptionPane.INFORMATION_MESSAGE);
     }
 }
