@@ -71,6 +71,16 @@ public class ControladorRubros {
         return buscarRubro(idRubro) != null;
     }
 
+    public Integer siguienteId() {
+        int max = 0;
+        for (Rubro r : rubros) {
+            if (r.getIdRubro() != null && r.getIdRubro() > max) {
+                max = r.getIdRubro();
+            }
+        }
+        return max + 1;
+    }
+
     // Búsqueda parcial por nombre
     public List<Rubro> buscarPorNombre(String nombre) {
         List<Rubro> resultado = new ArrayList<>();

@@ -5,7 +5,9 @@ import controladores.ControladorDocumentos;
 import controladores.ControladorOrdenes;
 import controladores.ControladorPagos;
 import controladores.ControladorRetenciones;
+import controladores.ControladorRubros;
 import entidades.Proveedor;
+import entidades.Rubro;
 import entidades.OrdenCompra;
 import entidades.OrdenPago;
 import entidades.documentos.DocumentoComercial;
@@ -24,6 +26,7 @@ public class VistaReportes extends JFrame {
     private final ControladorOrdenes cOrd = ControladorOrdenes.getInstance();
     private final ControladorPagos cPag = ControladorPagos.getInstance();
     private final ControladorRetenciones cRet = ControladorRetenciones.getInstance();
+    private final ControladorRubros cRub = ControladorRubros.getInstance();
 
     private JTextArea salida;
 
@@ -51,8 +54,10 @@ public class VistaReportes extends JFrame {
 
         botonera.add(crearBoton("Cuenta Corriente de un Proveedor", e -> cuentaCorriente()));
         botonera.add(crearBoton("Documentos Pendientes de Pago", e -> documentosPendientes()));
-        botonera.add(crearBoton("Órdenes de Compra por Estado", e -> ordenesPorEstado()));
-        botonera.add(crearBoton("Pagos por Proveedor", e -> pagosPorProveedor()));
+
+        botonera.add(crearBoton("Órdenes de Compra", e -> ordenesCompra()));
+
+        botonera.add(crearBoton("Órdenes de Pago", e -> ordenesPago()));
         botonera.add(crearBoton("Libro IVA Compras (por período)", e -> libroIVA()));
         botonera.add(crearBoton("Total Retenido por Impuesto", e -> totalRetenido()));
         panel.add(botonera, BorderLayout.WEST);
@@ -116,6 +121,18 @@ public class VistaReportes extends JFrame {
         mostrar(sb.toString());
     }
 
+    private void ordenesCompra() {
+        String[] filtros = {"Por Estado", "Por Rubro", "Por Proveedor"};
+        String filtro = (String) JOptionPane.showInputDialog(this, "Filtrar órdenes de compra por:",
+                "Órdenes de Compra", JOptionPane.QUESTION_MESSAGE, null, filtros, filtros[0]);
+        if (filtro == null) return;
+        switch (filtro) {
+            case "Por Estado"    -> ordenesPorEstado();
+            case "Por Rubro"     -> ordenesPorRubro();
+            case "Por Proveedor" -> ordenesPorProveedorOC();
+        }
+    }
+
     private void ordenesPorEstado() {
         String[] estados = {"Borrador", "Emitida", "Pendiente Aprobacion"};
         String estado = (String) JOptionPane.showInputDialog(this, "Elegí el estado:",
@@ -137,12 +154,112 @@ public class VistaReportes extends JFrame {
         mostrar(sb.toString());
     }
 
+    private void ordenesPorRubro() {
+        List<Rubro> rubros = cRub.getRubros();
+        if (rubros.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay rubros cargados.",
+                    "Sin datos", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        Rubro rubro = (Rubro) JOptionPane.showInputDialog(this, "Elegí el rubro:",
+                "Órdenes por Rubro", JOptionPane.QUESTION_MESSAGE, null,
+                rubros.toArray(), rubros.get(0));
+        if (rubro == null) return;
+
+        List<OrdenCompra> ordenes = cOrd.getOrdenesPorRubro(rubro);
+        StringBuilder sb = new StringBuilder("=== ÓRDENES DE COMPRA — RUBRO: " + rubro.getNombre() + " ===\n\n");
+        if (ordenes.isEmpty()) {
+            sb.append("(no hay órdenes para ese rubro)\n");
+        } else {
+            for (OrdenCompra oc : ordenes) {
+                sb.append(String.format("OC-%-6s Prov: %-20s Total: $%-12s Estado: %s%n",
+                        oc.getNroOC(),
+                        oc.getProveedor() != null ? oc.getProveedor().getNombreComercial() : "N/A",
+                        oc.getMontoTotal(), oc.getEstado()));
+            }
+        }
+        mostrar(sb.toString());
+    }
+
+    private void ordenesPorProveedorOC() {
+        Proveedor p = elegirProveedor();
+        if (p == null) return;
+
+        List<OrdenCompra> ordenes = cOrd.getOrdenesPorProveedor(p);
+        StringBuilder sb = new StringBuilder("=== ÓRDENES DE COMPRA — PROVEEDOR: " + p.getNombreComercial() + " ===\n\n");
+        if (ordenes.isEmpty()) {
+            sb.append("(no hay órdenes para ese proveedor)\n");
+        } else {
+            for (OrdenCompra oc : ordenes) {
+                sb.append(String.format("OC-%-6s Total: $%-12s Estado: %s%n",
+                        oc.getNroOC(), oc.getMontoTotal(), oc.getEstado()));
+            }
+        }
+        mostrar(sb.toString());
+    }
+
+    private void ordenesPago() {
+        String[] filtros = {"Por Período", "Por Medio de Pago", "Por Proveedor"};
+        String filtro = (String) JOptionPane.showInputDialog(this, "Filtrar órdenes de pago por:",
+                "Órdenes de Pago", JOptionPane.QUESTION_MESSAGE, null, filtros, filtros[0]);
+        if (filtro == null) return;
+        switch (filtro) {
+            case "Por Período"       -> pagosPorPeriodo();
+            case "Por Medio de Pago" -> pagosPorMedioPago();
+            case "Por Proveedor"     -> pagosPorProveedor();
+        }
+    }
+
+    private void pagosPorPeriodo() {
+        LocalDate desde = pedirFecha("Fecha DESDE (aaaa-mm-dd):");
+        if (desde == null) return;
+        LocalDate hasta = pedirFecha("Fecha HASTA (aaaa-mm-dd):");
+        if (hasta == null) return;
+
+        List<OrdenPago> pagos = cPag.getPagosPorPeriodo(desde, hasta);
+        StringBuilder sb = new StringBuilder("=== ÓRDENES DE PAGO — PERÍODO: " + desde + " a " + hasta + " ===\n\n");
+        if (pagos.isEmpty()) {
+            sb.append("(sin órdenes en ese período)\n");
+        } else {
+            for (OrdenPago op : pagos) {
+                sb.append(String.format("OP-%-6s Prov: %-20s Bruto: $%-10s Ret: $%-10s Neto: $%-10s Estado: %s%n",
+                        op.getNroOP(),
+                        op.getProveedor() != null ? op.getProveedor().getNombreComercial() : "N/A",
+                        op.getMontoBrutoAPagar(), op.getTotalRetenciones(),
+                        op.getMontoNetoAFavor(), op.getEstado()));
+            }
+        }
+        mostrar(sb.toString());
+    }
+
+    private void pagosPorMedioPago() {
+        String[] tipos = {"Efectivo", "Transferencia", "ChequePropio", "ChequeTercero"};
+        String tipo = (String) JOptionPane.showInputDialog(this, "Elegí el medio de pago:",
+                "Órdenes por Medio de Pago", JOptionPane.QUESTION_MESSAGE, null, tipos, tipos[0]);
+        if (tipo == null) return;
+
+        StringBuilder sb = new StringBuilder("=== ÓRDENES DE PAGO — MEDIO: " + tipo + " ===\n\n");
+        boolean hayResultados = false;
+        for (OrdenPago op : cPag.getOrdenesPago()) {
+            boolean tieneEseMedio = op.getMediosPago().stream()
+                    .anyMatch(mp -> mp.getClass().getSimpleName().equals(tipo));
+            if (!tieneEseMedio) continue;
+            hayResultados = true;
+            sb.append(String.format("OP-%-6s Prov: %-20s Neto: $%-10s Estado: %s%n",
+                    op.getNroOP(),
+                    op.getProveedor() != null ? op.getProveedor().getNombreComercial() : "N/A",
+                    op.getMontoNetoAFavor(), op.getEstado()));
+        }
+        if (!hayResultados) sb.append("(no hay órdenes con ese medio de pago)\n");
+        mostrar(sb.toString());
+    }
+
     private void pagosPorProveedor() {
         Proveedor p = elegirProveedor();
         if (p == null) return;
 
         List<OrdenPago> pagos = cPag.getPagosPorProveedor(p);
-        StringBuilder sb = new StringBuilder("=== PAGOS DEL PROVEEDOR: " + p.getNombreComercial() + " ===\n\n");
+        StringBuilder sb = new StringBuilder("=== ÓRDENES DE PAGO — PROVEEDOR: " + p.getNombreComercial() + " ===\n\n");
         if (pagos.isEmpty()) {
             sb.append("(sin pagos registrados)\n");
         } else {

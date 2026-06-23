@@ -69,6 +69,16 @@ public class ControladorOrdenes {
         return buscarOrdenCompra(nroOC) != null;
     }
 
+    public Integer siguienteNroOC() {
+        int max = 0;
+        for (OrdenCompra oc : ordenesCompra) {
+            if (oc.getNroOC() != null && oc.getNroOC() > max) {
+                max = oc.getNroOC();
+            }
+        }
+        return max + 1;
+    }
+
     // Obtiene todas las ordenes en un estado especifico
     public List<OrdenCompra> getOrdenesPorEstado(String estado) {
         List<OrdenCompra> resultado = new ArrayList<>();

@@ -26,7 +26,6 @@ public class VistaOrdenesPago extends JFrame {
     private final ControladorProveedores controladorProveedores = ControladorProveedores.getInstance();
     private final ControladorDocumentos controladorDocumentos = ControladorDocumentos.getInstance();
 
-    private JTextField txtNroOP;
     private JComboBox<Proveedor> cmbProveedor;
 
     // Documentos a cancelar
@@ -85,11 +84,9 @@ public class VistaOrdenesPago extends JFrame {
         gbc.insets = new Insets(4, 5, 4, 5);
         gbc.anchor = GridBagConstraints.WEST;
 
-        txtNroOP = new JTextField(10);
         cmbProveedor = new JComboBox<>();
         cmbProveedor.addActionListener(e -> cargarDocumentosPendientes());
-        VistaUtil.addCampo(cabecera, gbc, 0, 0, "Nº OP:", txtNroOP);
-        VistaUtil.addCampo(cabecera, gbc, 2, 0, "Proveedor:", cmbProveedor);
+        VistaUtil.addCampo(cabecera, gbc, 0, 0, "Proveedor:", cmbProveedor);
         norte.add(cabecera);
         norte.add(Box.createVerticalStrut(8));
 
@@ -306,8 +303,7 @@ public class VistaOrdenesPago extends JFrame {
     }
 
     private void crearOP() {
-        Integer nro = VistaUtil.parsearInt(this, txtNroOP.getText(), "Nº OP");
-        if (nro == null) return;
+        Integer nro = controlador.siguienteNroOP();
 
         Proveedor proveedor = (Proveedor) cmbProveedor.getSelectedItem();
         if (proveedor == null) {
@@ -388,7 +384,6 @@ public class VistaOrdenesPago extends JFrame {
     }
 
     private void limpiar() {
-        txtNroOP.setText("");
         docsTemp.clear();
         modeloDocs.setRowCount(0);
         retencionesTemp.clear();

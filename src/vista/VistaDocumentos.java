@@ -24,7 +24,6 @@ public class VistaDocumentos extends JFrame {
     private final ControladorProveedores controladorProveedores = ControladorProveedores.getInstance();
     private final ControladorItems controladorItems = ControladorItems.getInstance();
 
-    private JTextField txtNroDoc;
     private JComboBox<Proveedor> cmbProveedor;
     private JComboBox<String> cmbTipo;
     private JComboBox<DocumentoComercial> cmbAfectado;
@@ -74,7 +73,6 @@ public class VistaDocumentos extends JFrame {
         gbc.insets = new Insets(4, 5, 4, 5);
         gbc.anchor = GridBagConstraints.WEST;
 
-        txtNroDoc = new JTextField(12);
         cmbProveedor = new JComboBox<>();
         cmbTipo = new JComboBox<>(new String[]{"Factura", "NotaCredito", "NotaDebito"});
         cmbAfectado = new JComboBox<>();
@@ -82,8 +80,7 @@ public class VistaDocumentos extends JFrame {
         cmbTipo.addActionListener(e -> actualizarEstadoAfectado());
         cmbProveedor.addActionListener(e -> actualizarDocumentosAfectados());
 
-        VistaUtil.addCampo(cabecera, gbc, 0, 0, "Nº Documento:", txtNroDoc);
-        VistaUtil.addCampo(cabecera, gbc, 2, 0, "Proveedor:", cmbProveedor);
+        VistaUtil.addCampo(cabecera, gbc, 0, 0, "Proveedor:", cmbProveedor);
         VistaUtil.addCampo(cabecera, gbc, 0, 1, "Tipo:", cmbTipo);
         VistaUtil.addCampo(cabecera, gbc, 2, 1, "Doc. Afectado (NC/ND):", cmbAfectado);
         norte.add(cabecera);
@@ -214,12 +211,7 @@ public class VistaDocumentos extends JFrame {
     }
 
     private void crearDocumento() {
-        String nro = txtNroDoc.getText().trim();
-        if (nro.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "El Nº de documento es obligatorio.",
-                    "Validación", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+        String nro = controlador.siguienteNroDocumento();
         Proveedor proveedor = (Proveedor) cmbProveedor.getSelectedItem();
         if (proveedor == null) {
             JOptionPane.showMessageDialog(this,
@@ -285,7 +277,6 @@ public class VistaDocumentos extends JFrame {
     }
 
     private void limpiar() {
-        txtNroDoc.setText("");
         txtCantidad.setText("");
         txtPrecio.setText("");
         cmbAlicuota.setSelectedItem(0.21);

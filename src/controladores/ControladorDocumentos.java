@@ -74,6 +74,17 @@ public class ControladorDocumentos {
     public Boolean existeDocumento(String nroDocumento) {
         return buscarDocumento(nroDocumento) != null;
     }
+
+    public String siguienteNroDocumento() {
+        int max = 0;
+        for (DocumentoComercial dc : documentosComerciales) {
+            try {
+                int nro = Integer.parseInt(dc.getNroDocumento());
+                if (nro > max) max = nro;
+            } catch (NumberFormatException ignored) {}
+        }
+        return String.valueOf(max + 1);
+    }
  
     // Obtiene documentos que aun NO han sido pagados
     public List<DocumentoComercial> getDocumentosPendientes() {

@@ -71,6 +71,16 @@ public class ControladorPagos {
     public Boolean existeOrdenPago(Integer nroOP) {
         return buscarOrdenPago(nroOP) != null;
     }
+
+    public Integer siguienteNroOP() {
+        int max = 0;
+        for (OrdenPago op : ordenesPago) {
+            if (op.getNroOP() != null && op.getNroOP() > max) {
+                max = op.getNroOP();
+            }
+        }
+        return max + 1;
+    }
  
     // Obtiene todos los pagos realizados a un proveedor especifico
     public List<OrdenPago> getPagosPorProveedor(Proveedor proveedor) {

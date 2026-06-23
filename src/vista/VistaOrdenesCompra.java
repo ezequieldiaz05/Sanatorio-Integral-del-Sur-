@@ -21,7 +21,6 @@ public class VistaOrdenesCompra extends JFrame {
     private final ControladorProveedores controladorProveedores = ControladorProveedores.getInstance();
     private final ControladorItems controladorItems = ControladorItems.getInstance();
 
-    private JTextField txtNroOC;
     private JComboBox<Proveedor> cmbProveedor;
     private JComboBox<Item> cmbItem;
     private JTextField txtCantidad;
@@ -66,10 +65,8 @@ public class VistaOrdenesCompra extends JFrame {
         gbc.insets = new Insets(4, 5, 4, 5);
         gbc.anchor = GridBagConstraints.WEST;
 
-        txtNroOC = new JTextField(10);
         cmbProveedor = new JComboBox<>();
-        VistaUtil.addCampo(cabecera, gbc, 0, 0, "Nº OC:", txtNroOC);
-        VistaUtil.addCampo(cabecera, gbc, 2, 0, "Proveedor:", cmbProveedor);
+        VistaUtil.addCampo(cabecera, gbc, 0, 0, "Proveedor:", cmbProveedor);
         norte.add(cabecera);
         norte.add(Box.createVerticalStrut(8));
 
@@ -185,8 +182,7 @@ public class VistaOrdenesCompra extends JFrame {
     }
 
     private void crearOrden() {
-        Integer nro = VistaUtil.parsearInt(this, txtNroOC.getText(), "Nº OC");
-        if (nro == null) return;
+        Integer nro = controlador.siguienteNroOC();
 
         Proveedor proveedor = (Proveedor) cmbProveedor.getSelectedItem();
         if (proveedor == null) {
@@ -252,7 +248,6 @@ public class VistaOrdenesCompra extends JFrame {
     }
 
     private void limpiar() {
-        txtNroOC.setText("");
         txtCantidad.setText("");
         txtPrecio.setText("");
         detallesTemp.clear();
