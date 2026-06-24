@@ -168,7 +168,7 @@ public class VistaItems extends JFrame {
 
         Double precio = parsearDouble(txtPrecio.getText(), "Precio Base");
         if (precio == null) return;
-        Double alicuota = (Double) cmbAlicuota.getSelectedItem();
+        Double alicuota = (Double) cmbAlicuota.getSelectedItem() / 100.0;
 
         Item item;
         if ("Producto".equals(cmbTipo.getSelectedItem())) {
